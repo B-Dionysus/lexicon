@@ -1,6 +1,6 @@
 import { useEffect, useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
-import AWSContext from "../../context/auth/AWSContext";
+import AWSContext from "../../context/auth/AWSContext"; 
 interface PrivateRouteProps {
   // tslint:disable-next-line:no-any
   component: any,  
@@ -22,26 +22,25 @@ const PrivateRoute = (props:PrivateRouteProps) => {
       } 
     else{
       if(awsContext.user.username){
-        console.log("Found it, it was in aws");
-        props.user=awsContext.user;
+        console.log("Found it, it was in aws"); 
+        console.log(props.user);
       }
       else{
-        // console.log("No one knows for sure. Check with Amazon");
-                
+        console.log("No one knows for sure. Check with Amazon");    
+        // Set the user state (defined in app.tsk) to either NONE or to the user object            
         awsContext.checkUser();
       }
     }
 // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.user]);
 
   const { component: Component, user, ...rest } = props;
-
   return (
     <Route
       {...rest}
       render={(props) =>
         user.status==="NONE" ? (
-          <Redirect to="/register" {...props}/>
+          <Redirect to="/unauthorized" {...props}/>
         ) : (
           <Component {...props} user={user}/>
         )

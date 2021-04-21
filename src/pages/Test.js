@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import '../css/Landing.css';
 // import AuthContext from "../context/auth/authContext";
 // import { Link } from "react-router-dom";    
-// import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar";
 const Test = (props) => {
   // const authContext = useContext(AuthContext);
 
@@ -15,7 +15,7 @@ const Test = (props) => {
 
   return (
     <>
-      {/* <NavBar user={props.user}/> */}
+      <NavBar user={props.user}/>
       <div className="main">
         Hello!
       </div>

@@ -1,19 +1,19 @@
 import '../css/Landing.css';
 import { useContext } from "react";
 import Book from "../components/Book"
-import AWSContext from "../context/auth/AWSContext";
+import AWSContext, {loginPath} from "../context/auth/AWSContext"; 
 import { Link } from "react-router-dom";
-// import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar";
 const Landing = (props) => {  
   const awsContext = useContext(AWSContext); 
   const {user} = awsContext;
   
   return (
     <>
-      {/* <NavBar /> */}
+      <NavBar />
       <div className="main">
           {!user.username ? (
-              <a href="https://lexiconlogin.auth.us-east-1.amazoncognito.com/login?client_id=tdg9kaq13r4a1geh0f2n6s4l1&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http://localhost:3000/">Login</a>
+              <a href={loginPath}>Login</a>
           ) : (
             <Link to="/test">
             <button>
