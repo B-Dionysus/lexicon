@@ -1,0 +1,13 @@
+.nav{
+    background:gray;
+    height:5vh;
+    width:95vw;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    padding:.25em;
+    display:flex;
+    justify-content: space-around;
+}
+.navButton{
+    cursor:pointer;
+}
