@@ -7,24 +7,19 @@ import authConfig from "./context/auth/config"
 // import AWS from "aws-sdk";
 import {CognitoAuth} from 'amazon-cognito-auth-js';
 
-
 import {useState, useEffect, useCallback} from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 // Auth context states
  
-import AWSContext from "./context/auth/AWSContext"; 
+import AWSContext, {appDomain, callBackURL} from "./context/auth/AWSContext"; 
 import AlertState from "./context/alert/AlertState.js"; 
 import PrivateRoute from "./components/routing/PrivateRoute";
-// // // auth components 
-// import Register from "./components/auth/Register";
-// import Login from "./components/auth/Login";
-// import Confirm from "./components/auth/Confirm";
 import Alert from "./utils/Alerts"; 
 // // Pages 
 import Landing from "./pages/Landing";  
 import Unauthorized from "./pages/Unauthorized";  
-// import Admin from "./pages/Admin";
+import Admin from "./pages/Admin";
 import Test from "./pages/Test"; 
 // import awsconfig from './aws-exports'; 
 Amplify.configure(authConfig);
@@ -37,9 +32,9 @@ function App() {
 var authData = {
     UserPoolId: 'us-east-1_sAhMXlhVk',
     ClientId: 'tdg9kaq13r4a1geh0f2n6s4l1',
-    RedirectUriSignIn : 'http://localhost:3000',
-    RedirectUriSignOut : 'http://localhost:3000',
-    AppWebDomain : 'https://lexiconlogin.auth.us-east-1.amazoncognito.com/',
+    RedirectUriSignIn : callBackURL,
+    RedirectUriSignOut : callBackURL,
+    AppWebDomain : appDomain,
     TokenScopesArray: ['email']
     };
 var auth = new CognitoAuth(authData);
@@ -89,8 +84,8 @@ auth.parseCognitoWebResponse(curUrl);
                  <Route exact path="/unauthorized" component={Unauthorized} />
                 {/*<Route exact path="/register" component={Register} />
                 <Route exact path="/confirm" component={Confirm} />
-                <Route exact path="/login" component={Login} />            
-                <PrivateRoute path="/admin" user={user} component={Admin}/>        */} 
+                <Route exact path="/login" component={Login} />            */} 
+                <PrivateRoute path="/admin" user={user} component={Admin}/>        
                 <PrivateRoute path="/test" user={user} component={Test}/>        
               </Router>
           </AlertState>

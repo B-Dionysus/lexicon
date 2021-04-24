@@ -40,7 +40,7 @@ const NavBar = () => {
       ) : 
       (
         <>
-          <NavLink to="admin">Admin</NavLink>  
+          <NavLink to="admin">Create / Edit Game</NavLink>  
           <span className="navButton" onClick={logout}>Logout (AWS)</span>
         </>
       )}

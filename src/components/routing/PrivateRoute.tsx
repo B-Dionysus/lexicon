@@ -18,15 +18,15 @@ const PrivateRoute = (props:PrivateRouteProps) => {
     }  
     else if(props.user.status==="NONE")
       {
-        console.log("User is logged out")
+        console.log(props.path+": User is logged out")
       } 
     else{
       if(awsContext.user.username){
-        console.log("Found it, it was in aws"); 
+        console.log(props.path+": Found it, it was in awsContext"); 
         console.log(props.user);
       }
       else{
-        console.log("No one knows for sure. Check with Amazon");    
+        console.log(props.path+": No one knows for sure. Check with Amazon");    
         // Set the user state (defined in app.tsk) to either NONE or to the user object            
         awsContext.checkUser();
       }

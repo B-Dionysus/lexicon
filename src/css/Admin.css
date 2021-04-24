@@ -6,6 +6,7 @@
     background-image:url(https://lexicon-image-storage.s3.amazonaws.com/testImage/sky.png);
     background-size: 3px;
     color:black;
+    padding:0;
 }
 .create{
     text-align:left;
