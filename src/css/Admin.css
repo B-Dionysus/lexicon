@@ -8,6 +8,14 @@
     color:black;
     padding:0;
 }
+.adminNav{
+    float:left;
+    background:grey;
+    display:flex;
+    width:100%;
+    justify-content:space-evenly;
+    height:2em;
+}
 .create{
     text-align:left;
 }

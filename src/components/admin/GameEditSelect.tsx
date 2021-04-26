@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import '../css/editMenu.css';
+import '../../css/editMenu.css';
 import { NavLink } from "react-router-dom";
 import { Auth } from 'aws-amplify';
-import AWSContext, {loginPath, signUpPath} from "../context/auth/AWSContext"; 
+import AWSContext, {loginPath, signUpPath} from "../../context/auth/AWSContext"; 
 
 interface Game{
   id?:string;
@@ -18,16 +18,18 @@ const GameEditSelect = (props:any) => {
 
   if(props.games && props.games.length>0)
     return (
-      <ul className="editMenu">
-        <li className="heading">Edit Game</li>
-        {
-          props.games.map(
-            (g:Game)=>(
-              <li key={g.id} className="item menuBlock">{g.title}</li>
-            )
-          ) 
-        }
-      </ul>
+      <div className="editMenu">
+        <div className="heading">Edit Game</div>
+        <div className="submenu">
+            {
+              props.games.map(
+                (g:Game)=>(
+                  <li key={g.id} className="item menuBlock">{g.title}</li>
+                )
+              ) 
+            }
+        </div>
+      </div>
     );
   else return (<div>Loading...</div>)
 };

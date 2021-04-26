@@ -1,30 +1,35 @@
 .editMenu{
-    list-style-type: none;
-    padding:0;
-    margin:0;
+    text-align:left;
+    cursor:pointer;
+    width:15em;
+    height:auto;
+    float:left;
+    z-index:5;
 }
-.menuBlock{
-    background:gray;    
-    width: 16em;
+.heading{
+    font-weight:bold;
+    height:2em;
+    margin-left:.5em;
+}
+.submenu{
+    color:white;
+    background:grey;
+    text-align:left;
+    visibility:hidden;
+    list-style-type: none;
+}
+.menuBlock, .item{
     padding: .25em;
     margin-top: -1px;
 }
-.editMenu .heading{
-    font-weight:bold;
-    background:gray;  
-    text-align:left;
+.item{
+    padding:.5em;
+    border: 1px solid rgb(100,100,100);
 }
-.editMenu .item{
-    color:white;
-    text-align:left;
-    visibility:hidden;
-}
-.heading:hover{
-    cursor:pointer;
-}
-.heading:hover ~.item, 
-.item:hover {
-  visibility: visible;
+
+.heading:hover ~.submenu, 
+.submenu:hover{
   opacity: 1;
-  display: block;
+  visibility:visible;
+  display:block;
 }

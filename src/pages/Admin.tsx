@@ -4,7 +4,8 @@ import AWSContext from "../context/auth/AWSContext";
 import Book from "../components/Book"
 import API from "../utils/API"
 import '../css/Admin.css';
-import GameEditSelect from "../components/GameEditSelect"
+import GameEditSelect from "../components/admin/GameEditSelect"
+import Create from "../components/admin/Create"
 interface Game{
   id:string;
   title?: String;
@@ -64,9 +65,10 @@ const Admin = (props:any) => {
           {/* <button onClick={()=>{setAdminState("create")}}>Create game</button> */}
           {/* <button onClick={editButton}>Edit Game</button> */}
           <GameEditSelect games={gameListState}/>
-          <div id="textarea"><label htmlFor='selectGame'>Edit:</label><select name='selectGame' id='selectGame'></select></div>
         </div>
-        </div>
+        {adminState==="create" ?
+        <Create user={user}/> : <span>EDIT</span>}
+      </div>
     </>
   );
 };
