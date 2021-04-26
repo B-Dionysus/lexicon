@@ -4,7 +4,7 @@ import './css/App.css';
 import Amplify, {Auth} from 'aws-amplify';
 // import {CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js';
 import authConfig from "./context/auth/config"
-// import AWS from "aws-sdk";
+import AWS from "aws-sdk";
 import {CognitoAuth} from 'amazon-cognito-auth-js';
 
 import {useState, useEffect, useCallback} from "react";
@@ -24,6 +24,16 @@ import Test from "./pages/Test";
 // import awsconfig from './aws-exports'; 
 Amplify.configure(authConfig);
 
+var albumBucketName = "lexicon-image-storage";
+var bucketRegion = "us-east-1";
+var IdentityPoolId = "us-east-1:dbc09ff9-c508-42ef-96ab-1f1bfb44fa9f";
+
+AWS.config.update({
+  region: bucketRegion,
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: IdentityPoolId
+  })
+});
 function App() {
 
 // This is all from the bottom answer here:

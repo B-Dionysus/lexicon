@@ -37,20 +37,20 @@ const Admin = (props:any) => {
       setLoadingIndicator(false);
       const gameList:[Game]=(gameData as any).data.titles;
       setGames(gameList);
-      let dropDown:string="";
-      if(gameList.length>0){
-        dropDown="<label for='selectGame'>Edit: </label>";
-        dropDown+=`<select onChange="()=>{updateEdit(this.value);}" name='selectGame' id='selectGame'>`;
-        for(let game of gameList){
-          dropDown+=`<option value="${game.id}">${game.title}</option>`;
-        }
-        dropDown+="</select>"
-        if(gameList.length>0) setEdit(gameList[0].id as string);
-      }
-      /* To solve typescript's complaint that textarea might be null
-       If you know from external means that an expression is not null or undefined, you can use the non-null assertion operator ! to coerce away those types:
-       https://stackoverflow.com/questions/40349987/how-to-suppress-error-ts2533-object-is-possibly-null-or-undefined */
-      document.getElementById("textarea")!.innerHTML=dropDown;
+      // let dropDown:string="";
+      // if(gameList.length>0){
+      //   dropDown="<label for='selectGame'>Edit: </label>";
+      //   dropDown+=`<select onChange="()=>{updateEdit(this.value);}" name='selectGame' id='selectGame'>`;
+      //   for(let game of gameList){
+      //     dropDown+=`<option value="${game.id}">${game.title}</option>`;
+      //   }
+      //   dropDown+="</select>"
+      //   if(gameList.length>0) setEdit(gameList[0].id as string);
+      // }
+      // /* To solve typescript's complaint that textarea might be null
+      //  If you know from external means that an expression is not null or undefined, you can use the non-null assertion operator ! to coerce away those types:
+      //  https://stackoverflow.com/questions/40349987/how-to-suppress-error-ts2533-object-is-possibly-null-or-undefined */
+      // document.getElementById("textarea")!.innerHTML=dropDown;
     })
     .catch((err)=>{      
       console.error(err);
