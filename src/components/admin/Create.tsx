@@ -1,14 +1,38 @@
 import {Fragment, useState} from "react";
 import UserImage from "../UserImage"
 import AWS from "aws-sdk"
+import API from "../../utils/API";
 import "../../css/create.css"
 
 const Create=(props:any)=>{
-
+    
     const [rounds, setRounds]=useState([""]);
     const [gameImage, setGameImage] = useState("https://lexicon-image-storage.s3.amazonaws.com/testImage/optional.jpg");
-    async function makeGame(){
-
+    async function makeGame(e:any){
+        e.preventDefault();
+        props.setLoading(true);
+        let token=props.user.signInUserSession.idToken.jwtToken;
+        let form:any=document.getElementById("createGame");
+        let categories=removeBlanks(rounds);
+        setRounds([...categories]);
+        let params={
+            "Item": {
+              "creatorId": props.user.attributes.sub,
+              "title": form.title.value,
+              "description": form.description.value,
+              "logo": gameImage,
+              "rounds":categories
+            }
+          };
+          console.log(params); 
+          API.createGame(params, token)
+          .then((resp)=>{
+            console.log(resp);              
+            props.setLoading(false);
+          })
+          .catch((err)=>{              
+              console.log(err);
+          })
     }
     async function uploadFile(e:any){
         e.preventDefault();

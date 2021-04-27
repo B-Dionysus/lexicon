@@ -30,12 +30,18 @@ const Admin = (props:any) => {
     }
   },[user]);
 
+  // Moved this into a function so I can call it from child components more easily
+  // "true" turns on the loading indicator, false turns it off
+  function setLoading(value:boolean){
+    setLoadingIndicator(value);
+  }
   async function fetchGames(idToken:String){
-    setLoadingIndicator(true);
-    API.getGames(idToken)
+    setLoading(true);
+    API.getGames(idToken, user.attributes.sub)
     .then((gameData)=>{      
-      setLoadingIndicator(false);
-      const gameList:[Game]=(gameData as any).data.titles;
+      console.log(gameData);
+      setLoading(false);
+      const gameList:[Game]=(gameData as any).data.Items;
       setGames(gameList);
       // let dropDown:string="";
       // if(gameList.length>0){
@@ -67,7 +73,7 @@ const Admin = (props:any) => {
           <GameEditSelect games={gameListState}/>
         </div>
         {adminState==="create" ?
-        <Create user={user}/> : <span>EDIT</span>}
+        <Create user={user} setLoading={setLoading}/> : <span>EDIT</span>}
       </div>
     </>
   );
