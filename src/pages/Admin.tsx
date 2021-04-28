@@ -6,6 +6,7 @@ import API from "../utils/API"
 import '../css/Admin.css';
 import GameEditSelect from "../components/admin/GameEditSelect"
 import Create from "../components/admin/Create"
+import Edit from "../components/admin/Edit"
 interface Game{
   id:string;
   title?: String;
@@ -30,12 +31,19 @@ const Admin = (props:any) => {
     }
   },[user]);
 
+  function loadGame(gameId:string){    
+    console.log("Loading "+gameId)
+    setLoading(true);
+    setEdit(gameId);
+    setAdminState("edit");
+  }
+
   // Moved this into a function so I can call it from child components more easily
   // "true" turns on the loading indicator, false turns it off
   function setLoading(value:boolean){
     setLoadingIndicator(value);
   }
-  async function fetchGames(idToken:String){
+  async function fetchGames(idToken:string){
     setLoading(true);
     API.getGames(idToken, user.attributes.sub)
     .then((gameData)=>{      
@@ -43,20 +51,6 @@ const Admin = (props:any) => {
       setLoading(false);
       const gameList:[Game]=(gameData as any).data.Items;
       setGames(gameList);
-      // let dropDown:string="";
-      // if(gameList.length>0){
-      //   dropDown="<label for='selectGame'>Edit: </label>";
-      //   dropDown+=`<select onChange="()=>{updateEdit(this.value);}" name='selectGame' id='selectGame'>`;
-      //   for(let game of gameList){
-      //     dropDown+=`<option value="${game.id}">${game.title}</option>`;
-      //   }
-      //   dropDown+="</select>"
-      //   if(gameList.length>0) setEdit(gameList[0].id as string);
-      // }
-      // /* To solve typescript's complaint that textarea might be null
-      //  If you know from external means that an expression is not null or undefined, you can use the non-null assertion operator ! to coerce away those types:
-      //  https://stackoverflow.com/questions/40349987/how-to-suppress-error-ts2533-object-is-possibly-null-or-undefined */
-      // document.getElementById("textarea")!.innerHTML=dropDown;
     })
     .catch((err)=>{      
       console.error(err);
@@ -70,10 +64,10 @@ const Admin = (props:any) => {
         <div className="adminNav">
           {/* <button onClick={()=>{setAdminState("create")}}>Create game</button> */}
           {/* <button onClick={editButton}>Edit Game</button> */}
-          <GameEditSelect games={gameListState}/>
+          <GameEditSelect games={gameListState} edit={loadGame}/>
         </div>
         {adminState==="create" ?
-        <Create user={user} setLoading={setLoading}/> : <span>EDIT</span>}
+        <Create user={user} setLoading={setLoading} edit={loadGame}/> : <Edit user={user} setLoading={setLoading} gameId={gameId} />}
       </div>
     </>
   );

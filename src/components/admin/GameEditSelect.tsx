@@ -6,12 +6,13 @@ import AWSContext, {loginPath, signUpPath} from "../../context/auth/AWSContext";
 
 interface Game{
   id?:string;
-  title?: String;
-  description?: String;
-  image?: String;
-  creatorId?:String;
-  categories?:Array<String>;
+  title?: string;
+  description?: string;
+  image?: string;
+  creatorId?:string;
+  categories?:Array<string>;
 }
+
 const GameEditSelect = (props:any) => {
   if(props.games && props.games.length>0)
     console.log(props.games.length);
@@ -24,7 +25,7 @@ const GameEditSelect = (props:any) => {
             {
               props.games.map(
                 (g:Game)=>(
-                  <li key={g.id} className="item menuBlock">{g.title}</li>
+                  <div title={g.description} role="text" onClick={()=>props.edit(g.id)}key={g.id} className="item menuBlock">{g.title}</div>
                 )
               ) 
             }

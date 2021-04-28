@@ -1,4 +1,5 @@
 import axios from "axios";
+import AWS from "aws-sdk"
 const path="https://8xa8pgu8uj.execute-api.us-east-1.amazonaws.com";
 const stage="beta"
 
@@ -12,10 +13,43 @@ let API={
             }
         });
     },
+    getSpecificGame: function(token, gameId){
+        let req=`${path}/${stage}/query/?id=${gameId}`;
+        return axios.get(req,{
+            headers:{
+                'Authorization':token
+            }
+        });
+    },
     createGame:function(params, token){
         let req=`${path}/${stage}/create/`;
         let headers={headers:{"Authorization":token}} 
         return axios.post(req, params, headers)
     }
 };
+const uploadGameLogo=(f:HTMLInputElement)=>{
+    let files = f.files;   
+    if (files && !files.length) {
+        console.error("Error: No photos");
+    }
+    else if(files){
+        console.log("Uploading "+files[0].name);
+        let file = files[0];
+        var fileName = file.name;
+        var albumPhotosKey = encodeURIComponent("gameLogos") + "/";            
+        var photoKey = albumPhotosKey + fileName;
+        console.log("to "+photoKey);
+        // Use S3 ManagedUpload class as it supports multipart uploads
+        var upload = new AWS.S3.ManagedUpload({
+            params: {
+                Bucket: "lexicon-image-storage",
+                Key: photoKey,
+                Body: file,
+                ACL: 'public-read'
+            }
+        });
+        return upload.promise();
+    }
+}
 export default API;
+export {uploadGameLogo};

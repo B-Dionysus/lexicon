@@ -1,7 +1,6 @@
 import {Fragment, useState} from "react";
 import UserImage from "../UserImage"
-import AWS from "aws-sdk"
-import API from "../../utils/API";
+import API, {uploadGameLogo} from "../../utils/API";
 import "../../css/create.css"
 
 const Create=(props:any)=>{
@@ -27,47 +26,26 @@ const Create=(props:any)=>{
           console.log(params); 
           API.createGame(params, token)
           .then((resp)=>{
-            console.log(resp);              
-            props.setLoading(false);
+            console.log(resp);         
+            let newId=resp.data.body.Item.id;
+            props.edit(newId);
           })
           .catch((err)=>{              
               console.log(err);
           })
     }
-    async function uploadFile(e:any){
+    async function gameLogo(e:any){
         e.preventDefault();
-        let files = ((document.getElementById("photoupload")) as HTMLInputElement).files;   
-        if (files && !files.length) {
-            console.error("Error: No photos");
-        }
-        else if(files){
-            console.log("Uploading "+files[0].name);
-            let file = files[0];
-            var fileName = file.name;
-            var albumPhotosKey = encodeURIComponent("gameLogos") + "/";            
-            var photoKey = albumPhotosKey + fileName;
-            console.log("to "+photoKey);
-            // Use S3 ManagedUpload class as it supports multipart uploads
-            var upload = new AWS.S3.ManagedUpload({
-                params: {
-                    Bucket: "lexicon-image-storage",
-                    Key: photoKey,
-                    Body: file,
-                    ACL: 'public-read'
-                }
-            });
-            upload.promise()
-            .then((res:any)=>{
-                console.log(res);
-                setGameImage(res.Location);
-            })
-            .catch((err)=>{
-                // User did not select a photo (perhaps that chose "Cancel" in the file manager)
-                console.error(err);
-                return false;    
-            })
-        } 
-    } 
+        uploadGameLogo(document.getElementById("photoupload"))
+        .then((res:any)=>{
+            console.log(res);
+            setGameImage(res.Location);
+        })
+        .catch((err)=>{
+            // User did not select a photo (perhaps that chose "Cancel" in the file manager)
+            console.error(err);
+        })
+    }  
     function removeBlanks(arr:Array<string>):Array<string>{
         arr.forEach((elem, i)=>{
             console.log(elem);
@@ -111,7 +89,7 @@ const Create=(props:any)=>{
                 </span>
                 <span className="gameLogoSpan">
                     <div>Game Logo (optional)</div>
-                    <input id="photoupload"  name="photoupload" onChange={uploadFile} type="file" accept="image/*" />
+                    <input id="photoupload"  name="photoupload" onChange={gameLogo} type="file" accept="image/*" />
                     <UserImage image={gameImage}/> 
                 </span>
                 </div>

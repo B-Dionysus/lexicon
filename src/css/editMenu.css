@@ -12,19 +12,19 @@
     margin-left:.5em;
 }
 .submenu{
-    color:white;
     background:grey;
     text-align:left;
     visibility:hidden;
-    list-style-type: none;
+    padding:.25em;
+    display:block;
 }
 .menuBlock, .item{
-    padding: .25em;
     margin-top: -1px;
 }
 .item{
-    padding:.5em;
-    border: 1px solid rgb(100,100,100);
+    text-decoration:none;
+    color:white;
+    padding: .25em;
 }
 
 .heading:hover ~.submenu, 
