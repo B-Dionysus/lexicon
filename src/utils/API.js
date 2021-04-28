@@ -1,7 +1,7 @@
 import axios from "axios";
 import AWS from "aws-sdk"
 const path="https://8xa8pgu8uj.execute-api.us-east-1.amazonaws.com";
-const stage="beta"
+const stage="Delta"
 
 let API={
 
@@ -9,7 +9,7 @@ let API={
         let req=`${path}/${stage}/list/?id=${id}`;
         return axios.get(req,{
             headers:{
-                'Authorization':token
+                'authorization':token
             }
         });
     },
@@ -17,21 +17,26 @@ let API={
         let req=`${path}/${stage}/query/?id=${gameId}`;
         return axios.get(req,{
             headers:{
-                'Authorization':token
+                'authorization':token
             }
         });
     },
     createGame:function(params, token){
         let req=`${path}/${stage}/create/`;
-        let headers={headers:{"Authorization":token}} 
+        let headers={headers:{"authorization":token}} 
         return axios.post(req, params, headers)
+    },
+    updateGame:function(params, token){
+        let req=`${path}/${stage}/update/`;
+        let headers={headers:{"authorization":token}} 
+        return axios.post(req, params, headers)    
     },
     deleteGame:function(token, gameId, creatorId){
         let req=`${path}/${stage}/delete/?id=${gameId}&creatorId=${creatorId}`;
         console.log(req);
         return axios.get(req,{
             headers:{
-                'Authorization':token
+                'authorization':token
             }
         });}
 };

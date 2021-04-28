@@ -35,8 +35,31 @@ const Edit=(props:editProp)=>{
             console.error(err);
         });
     }
-    function commitEdits(){
-
+    function commitEdits(e:any){
+        e.preventDefault();
+        props.setLoading(true);
+        let token=props.user.signInUserSession.idToken.jwtToken;
+        let form:any=document.getElementById("editGame");
+        let categories=removeBlanks(rounds);
+        setRounds([...categories]);
+        let params={
+              "id":props.gameId,
+              "creatorId": props.user.attributes.sub,
+              "title": form.title.value,
+              "description": form.description.value,
+              "logo": gameImage,
+              "rounds":categories
+          };
+          console.log(params); 
+          API.updateGame(params, token)
+          .then((resp)=>{
+            console.log(resp);    
+            props.setLoading(false); 
+            props.setState("create"); 
+          })
+          .catch((err)=>{              
+              console.log(err);
+          })
     }
     async function gameLogo(e:any){
         e.preventDefault();
