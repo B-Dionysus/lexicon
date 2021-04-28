@@ -25,7 +25,15 @@ let API={
         let req=`${path}/${stage}/create/`;
         let headers={headers:{"Authorization":token}} 
         return axios.post(req, params, headers)
-    }
+    },
+    deleteGame:function(token, gameId, creatorId){
+        let req=`${path}/${stage}/delete/?id=${gameId}&creatorId=${creatorId}`;
+        console.log(req);
+        return axios.get(req,{
+            headers:{
+                'Authorization':token
+            }
+        });}
 };
 const uploadGameLogo=(f:HTMLInputElement)=>{
     let files = f.files;   

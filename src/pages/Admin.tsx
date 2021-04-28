@@ -29,7 +29,7 @@ const Admin = (props:any) => {
       // let userId=user.attributes.sub;
       fetchGames(user.signInUserSession.idToken.jwtToken);  
     }
-  },[user]);
+  },[user, adminState]);
 
   function loadGame(gameId:string){    
     console.log("Loading "+gameId)
@@ -67,7 +67,7 @@ const Admin = (props:any) => {
           <GameEditSelect games={gameListState} edit={loadGame}/>
         </div>
         {adminState==="create" ?
-        <Create user={user} setLoading={setLoading} edit={loadGame}/> : <Edit user={user} setLoading={setLoading} gameId={gameId} />}
+        <Create user={user} setLoading={setLoading} edit={loadGame}/> : <Edit user={user} setLoading={setLoading} setState={setAdminState} gameId={gameId} />}
       </div>
     </>
   );

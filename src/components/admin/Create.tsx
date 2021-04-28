@@ -36,7 +36,8 @@ const Create=(props:any)=>{
     }
     async function gameLogo(e:any){
         e.preventDefault();
-        uploadGameLogo(document.getElementById("photoupload"))
+        
+        if(document.getElementById("photoupload")) uploadGameLogo(document.getElementById("photoupload"))
         .then((res:any)=>{
             console.log(res);
             setGameImage(res.Location);

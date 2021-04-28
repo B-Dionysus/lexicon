@@ -21,14 +21,12 @@ const Edit=(props:editProp)=>{
         props.setLoading(true);
         API.getSpecificGame(idToken, gameId)
         .then((resp)=>{
-            console.log(resp);
             props.setLoading(false);
             let game=resp.data.Items[0];
             let newArray=game.rounds;
             setRounds(newArray);
-            console.log(game.rounds);
             setGameImage(game.logo);            
-            let form:any=document.getElementById("createGame");
+            let form:any=document.getElementById("editGame");
             form.title.value=game.title;
             form.description.value=game.description;
         })
@@ -74,9 +72,25 @@ const Edit=(props:editProp)=>{
         newArray[e.target.dataset.index]=e.target.value;
         setRounds(newArray);      
     }
+    function deleteGame(e:any){        
+        e.preventDefault();
+        let gameName:string=document.getElementById("editGame").title.value;
+        if(window.confirm(`Delete game "${gameName}? This cannot be undone.`)){
+            props.setLoading(true);
+            API.deleteGame(props.user.signInUserSession.idToken.jwtToken, props.gameId, props.user.attributes.sub)
+            .then((resp)=>{
+                console.log(resp);
+                props.setLoading(false);
+                props.setState("create");
+            })
+            .catch((err)=>{
+                console.error(err);
+            });
+        }
+    }
     return(
         <div className="create greyGrad">
-        <form id="createGame" onSubmit={commitEdits}>
+        <form id="editGame" onSubmit={commitEdits}>
             <p><input type="text" name="title" size={40}></input></p>
             <p><textarea name="description" cols={40} rows={3}></textarea></p>
             <div className="roundsAndImage">
@@ -96,7 +110,7 @@ const Edit=(props:editProp)=>{
                 <UserImage image={gameImage}/> 
             </span>
             </div>
-            <input id="subButton" type="submit" />
+            <input id="subButton" type="submit" /> <button onClick={deleteGame}>Delete</button>
         </form>
     </div>
     ); 
