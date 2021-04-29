@@ -11,7 +11,7 @@ const NavBar = () => {
   
   async function logout(){
     try { 
-        await Auth.signOut();
+        await Auth.signOut({global:true});
         awsContext.checkUser();
     } catch (error) {
         console.log('error signing out: ', error);

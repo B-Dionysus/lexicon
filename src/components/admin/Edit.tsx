@@ -7,23 +7,23 @@ interface editProp{
     user:any,
     gameId:string,
     setLoading:any,
-    setState:any
+    setState:any,
+    token:string;
 }
 const Edit=(props:editProp)=>{
     const [rounds, setRounds]=useState([""]);
     const [gameImage, setGameImage] = useState("https://lexicon-image-storage.s3.amazonaws.com/testImage/optional.jpg");
 
-    useEffect(()=>{
-        let token=props.user.signInUserSession.idToken.jwtToken;
-        let gameId=props.gameId;
-        loadGame(token, gameId);
-    },[props.gameId]);
+    // const token=props.token;
+    // const gameId=props.gameId;
+    // const sl=props.sl;
+    const {token, gameId, setLoading} = props;
 
-    function loadGame(idToken:string, gameId:string){
-        props.setLoading(true);
-        API.getSpecificGame(idToken, gameId)
+    useEffect(()=>{
+        setLoading(true);
+        API.getSpecificGame(token, gameId)
         .then((resp)=>{
-            props.setLoading(false);
+            setLoading(false);
             let game=resp.data.Items[0];
             let newArray=game.rounds;
             setRounds(newArray);
@@ -33,10 +33,13 @@ const Edit=(props:editProp)=>{
             form.description.value=game.description;
         })
         .catch((err)=>{ 
-            props.setLoading(false);
+            setLoading(false);
             console.error(err);
         });
-    }
+        //React Hook useEffect has a missing dependency: 'setLoading'.
+         // eslint-disable-next-line
+    },[gameId, token]);
+
     function commitEdits(e:any){
         e.preventDefault();
         props.setLoading(true);

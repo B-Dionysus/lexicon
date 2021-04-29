@@ -1,8 +1,4 @@
-import { useContext } from "react";
 import '../../css/editMenu.css';
-import { NavLink } from "react-router-dom";
-import { Auth } from 'aws-amplify';
-import AWSContext, {loginPath, signUpPath} from "../../context/auth/AWSContext"; 
 
 interface Game{
   id?:string;
@@ -25,7 +21,7 @@ const GameEditSelect = (props:any) => {
             {
               props.games.map(
                 (g:Game)=>(
-                  <div title={g.description} role="text" onClick={()=>props.edit(g.id)}key={g.id} className="item menuBlock">{g.title}</div>
+                  <div title={g.description} role="menuitem" onClick={()=>props.edit(g.id)}key={g.id} className="item menuBlock">{g.title}</div>
                 )
               ) 
             }

@@ -23,11 +23,23 @@ const Admin = (props:any) => {
   const [gameListState, setGames]=useState<[Game]>();
   const [bookDisplay, setLoadingIndicator]=useState(false);
   const [gameId, setEdit]=useState("");
+
   // When the user changes, get the titles of the games they have created
   useEffect(()=>{
+    console.error("USEEFFECT ON ADMIN")
     if(user.attributes){
-      // let userId=user.attributes.sub;
-      fetchGames(user.signInUserSession.idToken.jwtToken);  
+      let idToken=user.signInUserSession.idToken.jwtToken;  
+      setLoading(true);
+      API.getGames(idToken, user.attributes.sub)
+      .then((gameData)=>{      
+        console.log(gameData);
+        setLoading(false);
+        const gameList:[Game]=(gameData as any).data.Items;
+        setGames(gameList);
+      })
+      .catch((err)=>{      
+        console.error(err);
+      });
     }
   },[user, adminState]);
 
@@ -43,19 +55,7 @@ const Admin = (props:any) => {
   function setLoading(value:boolean){
     setLoadingIndicator(value);
   }
-  async function fetchGames(idToken:string){
-    setLoading(true);
-    API.getGames(idToken, user.attributes.sub)
-    .then((gameData)=>{      
-      console.log(gameData);
-      setLoading(false);
-      const gameList:[Game]=(gameData as any).data.Items;
-      setGames(gameList);
-    })
-    .catch((err)=>{      
-      console.error(err);
-    });
-  }
+
   return (
     <>
       <NavBar /> 
@@ -65,9 +65,9 @@ const Admin = (props:any) => {
           {/* <button onClick={()=>{setAdminState("create")}}>Create game</button> */}
           {/* <button onClick={editButton}>Edit Game</button> */}
           <GameEditSelect games={gameListState} edit={loadGame}/>
-        </div>
+        </div> 
         {adminState==="create" ?
-        <Create user={user} setLoading={setLoading} edit={loadGame}/> : <Edit user={user} setLoading={setLoading} setState={setAdminState} gameId={gameId} />}
+        <Create user={user} setLoading={setLoading} edit={loadGame}/> : <Edit user={user} token={user.signInUserSession.idToken.jwtToken} setLoading={setLoading} setState={setAdminState} gameId={gameId} />}
       </div>
     </>
   );

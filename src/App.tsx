@@ -23,8 +23,6 @@ import Admin from "./pages/Admin";
 import Test from "./pages/Test"; 
 // import awsconfig from './aws-exports'; 
 Amplify.configure(authConfig);
-
-var albumBucketName = "lexicon-image-storage";
 var bucketRegion = "us-east-1";
 var IdentityPoolId = "us-east-1:dbc09ff9-c508-42ef-96ab-1f1bfb44fa9f";
 
@@ -86,15 +84,12 @@ auth.parseCognitoWebResponse(curUrl);
   return (
     <div className="App">
       <header className="App-header">
-        <AWSContext.Provider value={{user:user, checkUser:checkUser}}>
+        <AWSContext.Provider value={{user:user, checkUser:checkUser, CognitoIdentityServiceProvider:AWS.CognitoIdentityServiceProvider}}>
           <AlertState>
               <Router>
                 <Alert />
                  <Route exact path="/" component={Landing} />
                  <Route exact path="/unauthorized" component={Unauthorized} />
-                {/*<Route exact path="/register" component={Register} />
-                <Route exact path="/confirm" component={Confirm} />
-                <Route exact path="/login" component={Login} />            */} 
                 <PrivateRoute path="/admin" user={user} component={Admin}/>        
                 <PrivateRoute path="/test" user={user} component={Test}/>        
               </Router>

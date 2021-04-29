@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react";
+import {useState} from "react";
 import UserImage from "../UserImage"
 import API, {uploadGameLogo} from "../../utils/API";
 import "../../css/create.css"
@@ -7,6 +7,7 @@ const Create=(props:any)=>{
     
     const [rounds, setRounds]=useState([""]);
     const [gameImage, setGameImage] = useState("https://lexicon-image-storage.s3.amazonaws.com/testImage/optional.jpg");
+    
     async function makeGame(e:any){
         e.preventDefault();
         props.setLoading(true);
