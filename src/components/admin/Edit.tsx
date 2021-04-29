@@ -4,8 +4,10 @@ import API, {uploadGameLogo} from "../../utils/API";
 import "../../css/create.css"
 
 interface editProp{
-    user:string,
-    gameId:string
+    user:any,
+    gameId:string,
+    setLoading:any,
+    setState:any
 }
 const Edit=(props:editProp)=>{
     const [rounds, setRounds]=useState([""]);
@@ -17,7 +19,7 @@ const Edit=(props:editProp)=>{
         loadGame(token, gameId);
     },[props.gameId]);
 
-    function loadGame(idToken, gameId){
+    function loadGame(idToken:string, gameId:string){
         props.setLoading(true);
         API.getSpecificGame(idToken, gameId)
         .then((resp)=>{
@@ -63,6 +65,8 @@ const Edit=(props:editProp)=>{
     }
     async function gameLogo(e:any){
         e.preventDefault();
+        // Object is possibly undefined.
+        //@ts-ignore
         uploadGameLogo(document.getElementById("photoupload"))
         .then((res:any)=>{
             console.log(res);
@@ -96,8 +100,8 @@ const Edit=(props:editProp)=>{
         setRounds(newArray);      
     }
     function deleteGame(e:any){        
-        e.preventDefault();
-        let gameName:string=document.getElementById("editGame").title.value;
+        e.preventDefault(); 
+        let gameName=(document.getElementById("editGame"))!.title; 
         if(window.confirm(`Delete game "${gameName}? This cannot be undone.`)){
             props.setLoading(true);
             API.deleteGame(props.user.signInUserSession.idToken.jwtToken, props.gameId, props.user.attributes.sub)

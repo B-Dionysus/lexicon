@@ -36,8 +36,9 @@ const Create=(props:any)=>{
     }
     async function gameLogo(e:any){
         e.preventDefault();
-        
-        if(document.getElementById("photoupload")) uploadGameLogo(document.getElementById("photoupload"))
+        // Object is possibly undefined.
+        //@ts-ignore
+        uploadGameLogo(document.getElementById("photoupload")) 
         .then((res:any)=>{
             console.log(res);
             setGameImage(res.Location);

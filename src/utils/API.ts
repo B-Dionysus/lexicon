@@ -5,7 +5,7 @@ const stage="Delta"
 
 let API={
 
-    getGames: function(token, id){
+    getGames: function(token:string, id:string){
         let req=`${path}/${stage}/list/?id=${id}`;
         return axios.get(req,{
             headers:{
@@ -13,7 +13,7 @@ let API={
             }
         });
     },
-    getSpecificGame: function(token, gameId){
+    getSpecificGame: function(token:string, gameId:string){
         let req=`${path}/${stage}/query/?id=${gameId}`;
         return axios.get(req,{
             headers:{
@@ -21,17 +21,17 @@ let API={
             }
         });
     },
-    createGame:function(params, token){
+    createGame:function(params:any, token:string){
         let req=`${path}/${stage}/create/`;
         let headers={headers:{"authorization":token}} 
         return axios.post(req, params, headers)
     },
-    updateGame:function(params, token){
+    updateGame:function(params:any, token:string){
         let req=`${path}/${stage}/update/`;
         let headers={headers:{"authorization":token}} 
         return axios.post(req, params, headers)    
     },
-    deleteGame:function(token, gameId, creatorId){
+    deleteGame:function(token:string, gameId:string, creatorId:string){
         let req=`${path}/${stage}/delete/?id=${gameId}&creatorId=${creatorId}`;
         console.log(req);
         return axios.get(req,{
@@ -40,8 +40,8 @@ let API={
             }
         });}
 };
-const uploadGameLogo=(f:HTMLInputElement)=>{
-    let files = f.files;   
+const uploadGameLogo=(f:HTMLInputElement | null)=>{
+    let files = f!.files;   
     if (files && !files.length) {
         console.error("Error: No photos");
     }
