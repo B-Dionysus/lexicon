@@ -1,8 +1,8 @@
 import {useState, useEffect} from "react";
 import UserImage from "../UserImage"
-import API, {uploadGameLogo} from "../../utils/API";
+import API, {uploadGameLogo} from "../../utils/API"; 
 import "../../css/create.css"
-
+import {joinGamePath} from "../../context/auth/AWSContext"; 
 interface editProp{
     user:any,
     gameId:string,
@@ -118,6 +118,62 @@ const Edit=(props:editProp)=>{
             });
         }
     }
+    function emailNewUser(e:any){
+        e.preventDefault();        
+        props.setLoading(true);
+        const address=(document.getElementById("newUser") as HTMLInputElement).value;        
+        let form:any=document.getElementById("editGame");      
+        const path=joinGamePath+`&state=${props.gameId}`  
+        let emailText=
+        `Greetings! You have been invited to take part in a game of Lexicon! Lexicon is a collaborative world-building game, in which each player takes the role of an academic author, working together to compile a reference book about a specific topic. The book will be written over a number of rounds, and as the game continues we will learn more about the world as we go! 
+        
+        The title of this particular reference book is, "${form.title.value}," so everyone will be creating fictional entries that relate to that. The first round will be ${rounds[0]}, so everyone will write a short (~200 word) entry that begins with ${rounds[0]} (not counting words like "A" or "The"). In these entries, everyone will also mention further entries in the book—ones that do not begin with ${rounds[0]} and which will remain undefined for the moment.
+
+        In the next round, ${rounds[1]}, everyone will first claim any entries written by other people in previous rounds, and will write that entry, finally giving context to what was previously a meaningless word. These entries will also reference future entries, and so on until the entire book is completed and we have learned all about ${form.description.value}.
+
+        If you would like to join this project, please visit this URL: "${path}" to make an account and get started!
+
+        Title: ${form.title.value}
+        Description: ${form.description.value}`;
+        let htmlText=
+        `<p>Greetings! You have been invited to take part in a game of Lexicon! Lexicon is a collaborative world-building game, in which each player takes the role of an academic author, working together to compile a reference book about a specific topic. The book will be written over a number of rounds, and as the game continues we will learn more about the world as we go! 
+        </p><p>
+        The title of this particular reference book is, "${form.title.value}," so everyone will be creating fictional entries that relate to that. The first round will be ${rounds[0]}, so everyone will write a short (~200 word) entry that begins with ${rounds[0]} (not counting words like "A" or "The"). In these entries, everyone will also mention further entries in the book—ones that do not begin with ${rounds[0]} and which will remain undefined for the moment.
+        </p><p>
+        In the next round, ${rounds[1]}, everyone will first claim any entries written by other people in previous rounds, and will write that entry, finally giving context to what was previously a meaningless word. These entries will also reference future entries, and so on until the entire book is completed and we have learned all about ${form.description.value}.
+        </p><p>
+        If you would like to join this project, please click <a href="${path}">here</a> to make an account and get started!
+        </p><p>
+        <b>Title:</b> ${form.title.value}</p><p>
+        <b>Description:</b> ${form.description.value}</p>`;
+        // emailText="This is a simple text string!";
+        const emailParams = {
+            Destination: {
+                ToAddresses: [address]
+            },
+            Message: {
+                Body: {
+                    Html: {
+                        Charset: "UTF-8",
+                        Data: htmlText
+                    }, 
+                    Text: { Data: emailText}                
+                },           
+                Subject: { Data: "Invition to Lexicon: "+form.title.value}
+            },
+            Source: "benjaminDionysus@benjaminDionys.us"
+        }
+        API.sendInviteEmail(props.token, emailParams)
+        .then((resp)=>{         
+            (document.getElementById("newUser") as HTMLInputElement).value="";  
+            props.setLoading(false);       
+            console.log(resp);
+        })
+        .catch((err)=>{            
+            props.setLoading(false);
+            console.error(err);
+        })
+    }
     return(
         <div className="create greyGrad">
         <form id="editGame" onSubmit={commitEdits}>
@@ -142,6 +198,13 @@ const Edit=(props:editProp)=>{
             </div>
             <input id="subButton" type="submit" /> <button onClick={deleteGame}>Delete</button>
         </form>
+        <div>
+            <form onSubmit={emailNewUser}>
+                <label htmlFor="newUser">Add a user to the game:</label>
+                <input type="email" required id="newUser" placeholder="email@email.com"></input>
+                <input type="submit" value="Invite User" />
+            </form>
+        </div>
     </div>
     ); 
 }

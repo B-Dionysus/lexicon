@@ -62,8 +62,7 @@ const Admin = (props:any) => {
       <Book display={bookDisplay}/>
       <div className="main">      
         <div className="adminNav">
-          {/* <button onClick={()=>{setAdminState("create")}}>Create game</button> */}
-          {/* <button onClick={editButton}>Edit Game</button> */}
+          <div className="createButton" onClick={()=>setAdminState("create")}>Create Game</div>
           <GameEditSelect games={gameListState} edit={loadGame}/>
         </div> 
         {adminState==="create" ?

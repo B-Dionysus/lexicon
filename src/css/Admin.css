@@ -19,11 +19,13 @@
 .create{
     text-align:left;
 }
+.createButton{
+    font-weight: bold;
+    cursor:pointer;
+}
 .rounds{
     margin-left:0;
     margin-right:1em;
-}
-.gameLogoSpan{
 }
 .greyGrad{
     background-image:linear-gradient(to bottom right, gray, white);

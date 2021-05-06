@@ -2,9 +2,19 @@ import axios from "axios";
 import AWS from "aws-sdk"
 const path="https://8xa8pgu8uj.execute-api.us-east-1.amazonaws.com";
 const stage="Delta"
-
+interface emailParam{
+    Destination: {
+        ToAddresses: string[]
+    },
+    Message: {
+        Body: {
+            Text: { Data: string}                
+        },            
+        Subject: { Data: string}
+    },
+    Source:string
+}
 let API={
-
     getGames: function(token:string, id:string){
         let req=`${path}/${stage}/list/?id=${id}`;
         return axios.get(req,{
@@ -38,7 +48,13 @@ let API={
             headers:{
                 'authorization':token
             }
-        });}
+        });
+    },
+    sendInviteEmail:function(token:string, params:emailParam){
+        let req=`${path}/${stage}/invite`;
+        let headers={headers:{"authorization":token}} 
+        return axios.post(req, params, headers)    
+    }
 };
 const uploadGameLogo=(f:HTMLInputElement | null)=>{
     let files = f!.files;   
@@ -46,7 +62,7 @@ const uploadGameLogo=(f:HTMLInputElement | null)=>{
         console.error("Error: No photos");
     }
     else if(files){
-        console.log("Uploading "+files[0].name);
+        console.log("Uploading "+files[0].name); 
         let file = files[0];
         var fileName = file.name;
         var albumPhotosKey = encodeURIComponent("gameLogos") + "/";            

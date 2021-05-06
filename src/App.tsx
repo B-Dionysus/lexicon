@@ -3,7 +3,7 @@ import './css/App.css';
 // // AWS Auth components
 import Amplify, {Auth} from 'aws-amplify';
 // import {CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js';
-import authConfig from "./context/auth/config"
+// import authConfig from "./context/auth/config"
 import AWS from "aws-sdk";
 import {CognitoAuth} from 'amazon-cognito-auth-js';
 
@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 // Auth context states
  
-import AWSContext, {appDomain, callBackURL} from "./context/auth/AWSContext"; 
+import AWSContext, {appDomain, callBackURL, authConfig} from "./context/auth/AWSContext"; 
 import AlertState from "./context/alert/AlertState.js"; 
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Alert from "./utils/Alerts"; 
@@ -20,6 +20,7 @@ import Alert from "./utils/Alerts";
 import Landing from "./pages/Landing";  
 import Unauthorized from "./pages/Unauthorized";  
 import Admin from "./pages/Admin";
+import JoinGame from "./pages/JoinGame";
 import Test from "./pages/Test"; 
 // import awsconfig from './aws-exports'; 
 Amplify.configure(authConfig);
@@ -33,7 +34,7 @@ AWS.config.update({
   })
 });
 function App() {
-
+  console.error("APP IS BEING LOADED!")
 // This is all from the bottom answer here:
 // https://stackoverflow.com/questions/45926339/cognito-hosted-ui
 // Configuration for Auth instance.
@@ -91,6 +92,7 @@ auth.parseCognitoWebResponse(curUrl);
                  <Route exact path="/" component={Landing} />
                  <Route exact path="/unauthorized" component={Unauthorized} />
                 <PrivateRoute path="/admin" user={user} component={Admin}/>        
+                <PrivateRoute path="/joinGame" user={user} component={JoinGame}/>        
                 <PrivateRoute path="/test" user={user} component={Test}/>        
               </Router>
           </AlertState>
