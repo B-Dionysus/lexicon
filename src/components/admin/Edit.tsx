@@ -1,8 +1,9 @@
 import {useState, useEffect} from "react";
 import UserImage from "../UserImage"
+import PlayerList from "../PlayerList"
 import API, {uploadGameLogo} from "../../utils/API"; 
-import "../../css/create.css"
 import {joinGamePath} from "../../context/auth/AWSContext"; 
+import '../../css/mainBook.css';
 interface editProp{
     user:any,
     gameId:string,
@@ -12,6 +13,7 @@ interface editProp{
 }
 const Edit=(props:editProp)=>{
     const [rounds, setRounds]=useState([""]);
+    const [playerIds,setIds]=useState([""])
     const [gameImage, setGameImage] = useState("https://lexicon-image-storage.s3.amazonaws.com/testImage/optional.jpg");
 
     // const token=props.token;
@@ -27,7 +29,8 @@ const Edit=(props:editProp)=>{
             let game=resp.data.Items[0];
             let newArray=game.rounds;
             setRounds(newArray);
-            setGameImage(game.logo);            
+            setGameImage(game.logo);   
+            setIds(game.playerIds);         
             let form:any=document.getElementById("editGame");
             form.title.value=game.title;
             form.description.value=game.description;
@@ -175,28 +178,42 @@ const Edit=(props:editProp)=>{
         })
     }
     return(
-        <div className="create greyGrad">
+    <div className="mainBook">
+    <div className="mainPage ">
+    <div className="mainText">
         <form id="editGame" onSubmit={commitEdits}>
-            <p><input type="text" name="title" size={40}></input></p>
-            <p><textarea name="description" cols={40} rows={3}></textarea></p>
-            <div className="roundsAndImage">
-            <span>
-            <span id="roundSpan">
-                    {/* @ts-ignore */}
-                    {rounds.map((r,i)=>(
-                        <div key={i}><label htmlFor={`round${i}`}>Round {i+1}</label><input onChange={updateRounds} type="text" 
-                        className="rounds" id={`round${i}`} name={`round${i}`} data-index={i} value={r}></input></div>
-                    ))}
-                </span> 
-                <button onClick={addRound}>Add Round</button>
-            </span>
-            <span className="gameLogoSpan">
-                <div>Game Logo (optional)</div>
-                <input id="photoupload"  name="photoupload" onChange={gameLogo} type="file" accept="image/*" />
-                <UserImage image={gameImage}/> 
-            </span>
+        <div className="grid">
+            <div>
+                <div><p>
+                    <label style={{display:"block"}} htmlFor="title">Title</label>
+                    <input type="text" name="title" size={38}></input></p>
+                    <p><textarea name="description" cols={40} rows={3}></textarea></p>
+                </div>
+                <div>
+                    <span id="roundSpan">
+                        {/* @ts-ignore */}
+                        {rounds.map((r,i)=>(
+                            <div key={i}><label htmlFor={`round${i}`}>Round {i+1}: </label><input onChange={updateRounds} type="text" 
+                            className="rounds" id={`round${i}`} name={`round${i}`} data-index={i} value={r}></input></div>
+                        ))} 
+                    </span> 
+                    <button onClick={addRound}>Add Round</button>
+                </div>
             </div>
+            <div>
+                <PlayerList ids={playerIds}/>
+                <div>
+                    <span className="gameLogoSpan">
+                        <div>Game Logo (optional)</div>
+                        <input id="photoupload"  name="photoupload" onChange={gameLogo} type="file" accept="image/*" />
+                        <UserImage image={gameImage}/> 
+                    </span>
+                </div>
+            </div>
+        </div>        
+        <div>
             <input id="subButton" type="submit" /> <button onClick={deleteGame}>Delete</button>
+        </div>
         </form>
         <div>
             <form onSubmit={emailNewUser}>
@@ -204,6 +221,8 @@ const Edit=(props:editProp)=>{
                 <input type="email" required id="newUser" placeholder="email@email.com"></input>
                 <input type="submit" value="Invite User" />
             </form>
+        </div>
+        </div>
         </div>
     </div>
     ); 

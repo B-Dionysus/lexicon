@@ -1,7 +1,6 @@
 import {useState} from "react";
 import UserImage from "../UserImage"
 import API, {uploadGameLogo} from "../../utils/API";
-import "../../css/create.css"
 
 const Create=(props:any)=>{
     
@@ -21,7 +20,8 @@ const Create=(props:any)=>{
               "title": form.title.value,
               "description": form.description.value,
               "logo": gameImage,
-              "rounds":categories
+              "rounds":categories,
+              "playerIds":[props.user.attributes.sub]
             }
           };
           console.log(params); 
@@ -74,11 +74,13 @@ const Create=(props:any)=>{
     return(
         <div className="create greyGrad">
             <form id="createGame" onSubmit={makeGame}>
-                <p><label htmlFor="title">Game Title. Something that will give the players ideas without being too limiting</label></p>
-                <p><input type="text" name="title" size={40} placeholder="The Book of Lost Battlemagi"></input></p>
-                <p><label htmlFor="description">Description. Again, nothing too specific. But give the initial round something to work with.</label></p>
-                <p><textarea name="description" cols={40} rows={3}placeholder="Medieval fantasy setting, with lots of epics spells and interested characters!"></textarea></p>
-                <p><label htmlFor="categories">Rounds. Each round has a different starting letter. For example, the classic game started with entries beginning with A, and then moved on to B entries, and so on.</label></p>
+                <div id="topSection">
+                    <div><label htmlFor="title">Game Title. Something that will give the players ideas without being too limiting</label></div>
+                    <div><input type="text" name="title" size={40} placeholder="The Book of Lost Battlemagi"></input></div>
+                    <div><label htmlFor="description">Description. Again, nothing too specific. But give the initial round something to work with.</label></div>
+                    <div><textarea name="description" cols={40} rows={3}placeholder="Medieval fantasy setting, with lots of epics spells and interested characters!"></textarea></div>
+                    <div><label htmlFor="categories">Rounds. Each round has a different starting letter. For example, the classic game started with entries beginning with A, and then moved on to B entries, and so on.</label></div>
+                    </div>
                 <div className="roundsAndImage">
                 <span>
                 <span id="roundSpan">
