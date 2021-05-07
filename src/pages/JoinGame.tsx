@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar"
 import Book from "../components/Book"
 import API from "../utils/API"
 import '../css/join.css';
+import '../css/mainBook.css';
 interface Game{
     id:string;
     title: String;
@@ -51,9 +52,9 @@ const JoinGame=()=>{
                 <div className="main">Loading</div>
                 : 
                 <div className="main">
-                    <div className="gameBook">
-                        <div className="gamePage">
-                            <div className="gameDesc">
+                    <div className="mainBook">
+                        <div className="mainPage">
+                            <div className="mainText">
                                 <p className="gameHeading">Title: <i>{game.title}</i></p>
                                 <p className="gameHeading">Description: {game.description}</p>
                                 <p>Lexicon is a collaborative world-building game, in which each player takes the role of an academic author, 

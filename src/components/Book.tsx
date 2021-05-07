@@ -1,5 +1,4 @@
-import "../css/book.css"
-// import booksvg from "./book.svg"
+import "../css/loadingBook.css"
 interface bookProps{
     display:boolean;
 }
