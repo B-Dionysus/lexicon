@@ -15,29 +15,37 @@
     justify-content:space-evenly;
     height:2em;
 }
-.create{
-    text-align:left;
-}
-.createButton{
-    font-weight: bold;
-    cursor:pointer;
-}
-.rounds{
-    margin-left:0;
+.gameBook{
+    background:black;
+    padding:2em;
+    padding-left:0;
     margin-right:1em;
+    margin-top:2em;
+}
+.gamePage{
+    position: relative;
+    border-top:1em solid #dcddd4;
+    border-right:1em solid grey;
+    border-bottom:.5em solid #dcddd4;
+    background-image: url("https://lexicon-image-storage.s3.amazonaws.com/gameLogos/paper.PNG");
+    background-size: cover;
+}
+.gameDesc{
+    text-align:left;
+    margin-right:3em;
+    padding:1em;      
+    font-family: 'Open Sans', sans-serif;
 }
 .greyGrad{
     background-image:linear-gradient(to bottom right, gray, white);
     border:1px solid green;
     padding:.5em;
 }
-.roundsAndImage{
-    display:flex;
-    justify-content: space-between;
-    flex-wrap:wrap;
+.gameHeading{
+    font-family: 'Goblin One', cursive;
+    font-size:110%;
 }
-.roundSpan{
-}
+
 .cloud{
     background-image: url(https://lexicon-image-storage.s3.amazonaws.com/testImage/cloud.png);
     position:absolute;
