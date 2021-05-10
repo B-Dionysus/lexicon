@@ -41,12 +41,12 @@ const Admin = (props:any) => {
           const gameList:[Game]=(gameData as any).data.Items;
           setGames(gameList);
         })
-        .catch((err)=>{      
+        .catch((err)=>{       
           console.error(err);
         });
       }
     }
-  },[user, adminState]);
+  },[user]);
 
   function loadGame(gameId:string){    
     console.log("Loading "+gameId)
@@ -67,13 +67,12 @@ const Admin = (props:any) => {
       <Book display={bookDisplay}/>
       <div className="main">      
         <div className="adminNav">
-        {adminState==="create" && <div className="createButton" onClick={()=>setAdminState("create")}>Create Game</div>}
+        {adminState==="edit" && <div className="createButton" onClick={()=>setAdminState("create")}>Create Game</div>}
           <GameEditSelect games={gameListState} edit={loadGame}/>
         </div> 
         {adminState==="create" ?
-        <Create user={user} setLoading={setLoading} edit={loadGame}/> : adminState==="edit" ?
-        <Edit user={user} token={user.signInUserSession.idToken.jwtToken} setLoading={setLoading} setState={setAdminState} gameId={gameId} /> : 
-        <div><h3>Loading...</h3></div>
+          <Create user={user} setLoading={setLoading} edit={loadGame}/> :
+          <Edit user={user} token={user.signInUserSession.idToken.jwtToken} setLoading={setLoading} setState={setAdminState} gameId={gameId} />
         }
       </div>
     </>
