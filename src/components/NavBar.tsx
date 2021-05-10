@@ -8,7 +8,7 @@ const NavBar = () => {
 
   const awsContext = useContext(AWSContext); 
   let user=awsContext.user;
-  
+  let accessLevel=user.attributes["custom:accessLevel"];
   async function logout(){
     try { 
         await Auth.signOut({global:true});
@@ -38,12 +38,11 @@ const NavBar = () => {
           </span>  
         </>
       ) : 
-      (
-        <>
+      accessLevel>=50 ? (<>
           <NavLink to="admin">Create / Edit Game</NavLink>  
           <span className="navButton" onClick={logout}>Logout (AWS)</span>
-        </>
-      )}
+        </>) : <span className="navButton" onClick={logout}>Logout (AWS)</span>
+      }
     </nav>
   );
 };

@@ -14,6 +14,12 @@ interface emailParam{
     },
     Source:string
 }
+interface newAdmin{
+    Item:{
+        userId:string,  
+        userName:string, 
+        accessLevel:number}
+}
 let API={
     getGames: function(token:string, id:string){
         let req=`${path}/${stage}/list/?id=${id}`;
@@ -54,8 +60,18 @@ let API={
         let req=`${path}/${stage}/invite`;
         let headers={headers:{"authorization":token}} 
         return axios.post(req, params, headers)    
+    },
+    createNewAdmin:function(token:string, params:newAdmin){
+        let req=`${path}/${stage}/createPlayer`;
+        let headers={headers:{"authorization":token}} 
+        return axios.post(req, params, headers)    
     }
 };
+
+
+
+
+
 const uploadGameLogo=(f:HTMLInputElement | null)=>{
     let files = f!.files;   
     if (files && !files.length) {

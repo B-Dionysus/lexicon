@@ -15,4 +15,6 @@ let authConfig={
   }
 export default AWSContext;
 export {loginPath, signUpPath, appDomain, joinGamePath, callBackURL, authConfig};
+// https://lexiconlogin.auth.us-east-1.amazoncognito.com/signup?client_id=tdg9kaq13r4a1geh0f2n6s4l1&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http://localhost:3000/joinGame&state=1619546293268.518
+// https://lexiconlogin.auth.us-east-1.amazoncognito.com/signup?client_id=tdg9kaq13r4a1geh0f2n6s4l1&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http://localhost:3000/joinGame&state=admin
  

@@ -1,6 +1,6 @@
 import NavBar from "../components/NavBar"
 import { useState, useContext, useEffect } from "react";
-import AWSContext from "../context/auth/AWSContext";
+import AWSContext, {callBackURL} from "../context/auth/AWSContext";
 import Book from "../components/Book"
 import API from "../utils/API"
 import '../css/Admin.css';
@@ -19,7 +19,7 @@ const Admin = (props:any) => {
 
   const awsContext = useContext(AWSContext); 
   const {user} = awsContext;
-  const [adminState, setAdminState] = useState("create");
+  const [adminState, setAdminState] = useState("loading");
   const [gameListState, setGames]=useState<[Game]>();
   const [bookDisplay, setLoadingIndicator]=useState(false);
   const [gameId, setEdit]=useState("");
@@ -28,18 +28,23 @@ const Admin = (props:any) => {
   useEffect(()=>{
     console.error("USEEFFECT ON ADMIN")
     if(user.attributes){
-      let idToken=user.signInUserSession.idToken.jwtToken;  
-      setLoading(true);
-      API.getGames(idToken, user.attributes.sub)
-      .then((gameData)=>{      
-        console.log(gameData);
-        setLoading(false);
-        const gameList:[Game]=(gameData as any).data.Items;
-        setGames(gameList);
-      })
-      .catch((err)=>{      
-        console.error(err);
-      });
+      let idToken=user.signInUserSession.idToken.jwtToken;          
+      let accessLevel=user.attributes["custom:accessLevel"];
+      if (accessLevel<50) window.location.href=callBackURL;
+      else {        
+        setLoading(true);
+        setAdminState("create");
+        API.getGames(idToken, user.attributes.sub)
+        .then((gameData)=>{      
+          console.log(gameData);
+          setLoading(false);
+          const gameList:[Game]=(gameData as any).data.Items;
+          setGames(gameList);
+        })
+        .catch((err)=>{      
+          console.error(err);
+        });
+      }
     }
   },[user, adminState]);
 
@@ -62,11 +67,14 @@ const Admin = (props:any) => {
       <Book display={bookDisplay}/>
       <div className="main">      
         <div className="adminNav">
-          <div className="createButton" onClick={()=>setAdminState("create")}>Create Game</div>
+        {adminState==="create" && <div className="createButton" onClick={()=>setAdminState("create")}>Create Game</div>}
           <GameEditSelect games={gameListState} edit={loadGame}/>
         </div> 
         {adminState==="create" ?
-        <Create user={user} setLoading={setLoading} edit={loadGame}/> : <Edit user={user} token={user.signInUserSession.idToken.jwtToken} setLoading={setLoading} setState={setAdminState} gameId={gameId} />}
+        <Create user={user} setLoading={setLoading} edit={loadGame}/> : adminState==="edit" ?
+        <Edit user={user} token={user.signInUserSession.idToken.jwtToken} setLoading={setLoading} setState={setAdminState} gameId={gameId} /> : 
+        <div><h3>Loading...</h3></div>
+        }
       </div>
     </>
   );
