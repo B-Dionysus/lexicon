@@ -56,7 +56,7 @@ const JoinGame=()=>{
                                     <div>Loading</div> :
                                     game.title==="admin" ?
                                     <CreateAdmin loading={setLoadingIndicator}/> :
-                                    <CreatePlayer gameInfo={game}/>
+                                    <CreatePlayer loading={setLoadingIndicator} gameInfo={game}/>
                                 }   
                             </div>
                         </div>

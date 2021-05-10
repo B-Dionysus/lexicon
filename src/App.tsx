@@ -22,6 +22,7 @@ import Unauthorized from "./pages/Unauthorized";
 import Admin from "./pages/Admin";
 import JoinGame from "./pages/JoinGame";
 import Test from "./pages/Test"; 
+import Play from "./pages/Play"; 
 // import awsconfig from './aws-exports'; 
 Amplify.configure(authConfig);
 var bucketRegion = "us-east-1";
@@ -90,6 +91,7 @@ auth.parseCognitoWebResponse(curUrl);
               <Router>
                 <Alert />
                  <Route exact path="/" component={Landing} />
+                 <Route path="/play" component={Play} />
                  <Route exact path="/unauthorized" component={Unauthorized} />
                 <PrivateRoute path="/admin" user={user} component={Admin}/>        
                 <PrivateRoute path="/joinGame" user={user} component={JoinGame}/>        

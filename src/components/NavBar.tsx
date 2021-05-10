@@ -8,7 +8,9 @@ const NavBar = () => {
 
   const awsContext = useContext(AWSContext); 
   let user=awsContext.user;
-  let accessLevel=user.attributes["custom:accessLevel"];
+  let accessLevel=0;
+  if(user.attributes) accessLevel=user.attributes["custom:accessLevel"];
+  
   async function logout(){
     try { 
         await Auth.signOut({global:true});

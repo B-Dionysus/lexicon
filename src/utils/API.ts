@@ -61,7 +61,7 @@ let API={
         let headers={headers:{"authorization":token}} 
         return axios.post(req, params, headers)    
     },
-    createNewAdmin:function(token:string, params:newAdmin){
+    createNewPlayer:function(token:string, params:newAdmin){
         let req=`${path}/${stage}/createPlayer`;
         let headers={headers:{"authorization":token}} 
         return axios.post(req, params, headers)    

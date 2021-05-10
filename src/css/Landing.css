@@ -1,6 +1,7 @@
 .main{
     background:blue;
-    height:90vh;
+    min-height:90vh;
+    height:auto;
     width:95vw;
     padding:.25em;
     background-image:url(https://lexicon-image-storage.s3.amazonaws.com/testImage/sky.png);

@@ -1,6 +1,6 @@
 import AWSContext from "../../context/auth/AWSContext";
 import {Auth} from 'aws-amplify';
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import API from "../../utils/API";
 
 export default function CreateAdmin(props:any){
@@ -13,18 +13,22 @@ export default function CreateAdmin(props:any){
    // {console.log(user.signInUserSession.idToken.jwtToken);}
     // The user has just been sent an email inviting them to become an administrator
 
-    function register(e:any){
+    function register(e:React.FormEvent){
         props.loading(true);
         e.preventDefault();
+        // Note: If the user re-submits this form it will change the data, including the "createdAt" time.
+        // In theory, the user shouldn't see this page again, but in theory they could go back to their 
+        // email and follow the link again.
         const name=(document.getElementById("name")as HTMLInputElement).value;
         let data={
             "userId":user.attributes.sub,
             "accessLevel":50,
-            "userName":name
+            "userName":name,
+            "userEmail":user.attributes.email
         }
         let params={"Item":data} 
         let token=user.signInUserSession.idToken.jwtToken;
-        API.createNewAdmin(token, params) 
+        API.createNewPlayer(token, params) 
         .then((resp)=>{
           console.log(resp);    
           let text=document.getElementById("welcomeText");
