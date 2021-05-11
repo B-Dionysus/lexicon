@@ -65,6 +65,10 @@ let API={
         let req=`${path}/${stage}/createPlayer`;
         let headers={headers:{"authorization":token}} 
         return axios.post(req, params, headers)    
+    },
+    getSpecificPlayer:function(charId:string){
+        let req=`${path}/${stage}/queryPlayer?charId=${charId}`;
+        return axios.get(req)    
     }
 };
 

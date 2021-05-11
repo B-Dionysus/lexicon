@@ -24,6 +24,8 @@ const Admin = (props:any) => {
   const [bookDisplay, setLoadingIndicator]=useState(false);
   const [gameId, setEdit]=useState("");
 
+  let token="";
+  if(user.signInUserSession) token=user.signInUserSession.idToken.jwtToken;
   // When the user changes, get the titles of the games they have created
   useEffect(()=>{
     console.error("USEEFFECT ON ADMIN")
@@ -72,7 +74,7 @@ const Admin = (props:any) => {
         </div> 
         {adminState==="create" ?
           <Create user={user} setLoading={setLoading} edit={loadGame}/> :
-          <Edit user={user} token={user.signInUserSession.idToken.jwtToken} setLoading={setLoading} setState={setAdminState} gameId={gameId} />
+          <Edit user={user} token={token} setLoading={setLoading} setState={setAdminState} gameId={gameId} />
         }
       </div>
     </>
