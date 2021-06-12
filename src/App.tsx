@@ -35,7 +35,7 @@ AWS.config.update({
   })
 });
 function App() {
-  console.error("APP IS BEING LOADED!")
+  console.debug("%cAPP %cIS BEING LOADED","color:blue","color:black")
 // This is all from the bottom answer here:
 // https://stackoverflow.com/questions/45926339/cognito-hosted-ui
 // Configuration for Auth instance.

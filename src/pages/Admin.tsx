@@ -15,6 +15,9 @@ interface Game{
   creatorId?:String;
   categories?:Array<String>;
 }
+
+//------------------------------> Note: Page will still load and display even after token has expired. Posting to database is still prohibited, as it should be.
+
 const Admin = (props:any) => {  
 
   const awsContext = useContext(AWSContext); 
@@ -28,7 +31,7 @@ const Admin = (props:any) => {
   if(user.signInUserSession) token=user.signInUserSession.idToken.jwtToken;
   // When the user changes, get the titles of the games they have created
   useEffect(()=>{
-    console.error("USEEFFECT ON ADMIN")
+    console.debug("USEEFFECT ON %cADMIN","color:green")
     if(user.attributes){
       let idToken=user.signInUserSession.idToken.jwtToken;          
       let accessLevel=user.attributes["custom:accessLevel"];
@@ -36,6 +39,7 @@ const Admin = (props:any) => {
       else {        
         setLoading(true);
         setAdminState("create");
+        console.log("Getting games for", user)
         API.getGames(idToken, user.attributes.sub)
         .then((gameData)=>{      
           console.log(gameData);
@@ -72,10 +76,8 @@ const Admin = (props:any) => {
         {adminState==="edit" && <div className="createButton" onClick={()=>setAdminState("create")}>Create Game</div>}
           <GameEditSelect games={gameListState} edit={loadGame}/>
         </div> 
-        {adminState==="create" ?
-          <Create user={user} setLoading={setLoading} edit={loadGame}/> :
-          <Edit user={user} token={token} setLoading={setLoading} setState={setAdminState} gameId={gameId} />
-        }
+        {adminState==="create" && <Create user={user} setLoading={setLoading} edit={loadGame}/>}
+        {adminState==="edit" && <Edit user={user} token={token} setLoading={setLoading} setState={setAdminState} gameId={gameId} />}
       </div>
     </>
   );
