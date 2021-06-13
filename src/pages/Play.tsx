@@ -1,7 +1,10 @@
 import "../css/player.css";
 import NavBar from "../components/NavBar"
 import EditEntry from "../components/player/EditEntry"
-export default function Play(){
+interface playProps{
+    gamesId:string;
+}
+export default function Play(props:playProps){
 
 
     return(
