@@ -38,3 +38,13 @@
     animation-name:cloud2;
     animation-duration: 210s;
 }
+.gameList{
+    width:300px;
+    border:1px solid black;
+    min-height: 100px;
+    position:relative;
+    left: 50%;
+    transform: translate(-50%);
+    z-index:1;
+    background:rgba(255,255,255,0.25);
+}

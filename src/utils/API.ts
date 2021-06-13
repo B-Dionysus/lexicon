@@ -30,7 +30,7 @@ let API={
         });
     },
     getSpecificGame: function(token:string, gameId:string){
-        // need to rename this methos to something more useful than "query"
+        // need to rename this method to something more useful than "query"
         let req=`${path}/${stage}/query/?id=${gameId}`;
         return axios.get(req,{
             headers:{

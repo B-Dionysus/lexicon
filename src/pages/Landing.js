@@ -1,13 +1,13 @@
 import '../css/Landing.css';
 import { useContext } from "react";
 import Book from "../components/Book"
+import GameList from "../components/player/GameList"
 import AWSContext, {loginPath} from "../context/auth/AWSContext"; 
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 const Landing = (props) => {  
   const awsContext = useContext(AWSContext); 
   const {user} = awsContext;
-  
   return (
     <>
       <NavBar />
@@ -20,6 +20,9 @@ const Landing = (props) => {
               Hello and welcome, {user.username} !</button>
             </Link>
           )}
+          <div className="gameList">
+            <GameList user={user}/>
+          </div>
         </div>
         <Book />
         <div className="cloud cloud1" /> 

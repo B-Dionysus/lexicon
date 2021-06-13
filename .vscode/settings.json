@@ -1,0 +1,11 @@
+{
+    "favorites.resources": [
+        "src\\components\\admin",
+        "src\\components\\player",
+        "src\\context\\auth",
+        "src\\css",
+        "src\\pages",
+        "src\\utils",
+        "src\\components"
+    ]
+}

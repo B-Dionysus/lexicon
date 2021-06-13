@@ -1,4 +1,4 @@
-
+import "../css/player.css";
 import NavBar from "../components/NavBar"
 import EditEntry from "../components/player/EditEntry"
 export default function Play(){
@@ -8,8 +8,10 @@ export default function Play(){
         <>
         <NavBar />
         <div className="main">
-            <h3>HELLO!</h3>
-            <EditEntry />
+            <h3><span>Title of Game!</span><span>Current Letter</span></h3>
+            <div>
+                <div className="editEntry"><EditEntry /></div><div className="unclaimed" id="unclaimed">Unclaimed Entries</div>
+            </div>
         </div>
         </>
     )

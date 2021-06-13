@@ -21,7 +21,8 @@ const Create=(props:any)=>{
               "description": form.description.value,
               "logo": gameImage,
               "rounds":categories,
-              "playerIds":[props.user.attributes.sub]
+              "playerIds":[props.user.attributes.sub],
+              "currentRound":0
             }
           };
           console.log(params); 
