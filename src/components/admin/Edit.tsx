@@ -12,13 +12,9 @@ interface editProp{
     token:string;
 }
 const Edit=(props:editProp)=>{
-    const [rounds, setRounds]=useState([""]);
-    const [playerIds,setIds]=useState([""])
+    const [rounds, setRounds]=useState<string[]>([]);
+    const [playerIds,setIds]=useState<string[]>([])
     const [gameImage, setGameImage] = useState("https://lexicon-image-storage.s3.amazonaws.com/testImage/optional.jpg");
-
-    // const token=props.token;
-    // const gameId=props.gameId;
-    // const sl=props.sl;
     const {token, gameId, setLoading} = props;
 
     useEffect(()=>{
@@ -79,7 +75,7 @@ const Edit=(props:editProp)=>{
             setGameImage(res.Location);
         })
         .catch((err)=>{
-            // User did not select a photo (perhaps that chose "Cancel" in the file manager)
+            // User did not select a photo (perhaps they chose "Cancel" in the file manager)
             console.error(err);
         })
     } 
@@ -124,7 +120,8 @@ const Edit=(props:editProp)=>{
     function emailNewUser(e:any){
         e.preventDefault();        
         props.setLoading(true);
-        const address=(document.getElementById("newUser") as HTMLInputElement).value;        
+        const address=(document.getElementById("newUser") as HTMLInputElement).value;    
+        (document.getElementById("newUser") as HTMLInputElement).value="";    
         let form:any=document.getElementById("editGame");      
         const path=joinGamePath+`&state=${props.gameId}`  
         let emailText=
@@ -149,7 +146,6 @@ const Edit=(props:editProp)=>{
         </p><p>
         <b>Title:</b> ${form.title.value}</p><p>
         <b>Description:</b> ${form.description.value}</p>`;
-        // emailText="This is a simple text string!";
         const emailParams = {
             Destination: {
                 ToAddresses: [address]

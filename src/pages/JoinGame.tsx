@@ -7,7 +7,7 @@ import API from "../utils/API"
 import '../css/join.css';
 import '../css/mainBook.css';
 interface Game{
-    id?:string;
+    id:string;
     title?: String;
     description?: String;
     image?: String;
@@ -25,7 +25,7 @@ const JoinGame=()=>{
 
     useEffect(()=>{
         setLoadingIndicator(true);
-        if(id==="admin") setGame({title:"admin",rounds:["None"]})
+        if(id==="admin") setGame({id:"admin", title:"admin",rounds:["None"]})
         else if(id) loadGame(id as string);
     },[id])
     

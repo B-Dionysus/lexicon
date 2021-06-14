@@ -6,7 +6,7 @@ import API, {uploadGameLogo} from "../../utils/API";
 import UserImage from "../UserImage"
 
 interface Game{
-    id?:string;
+    id:string;
     title?: String;
     description?: String;
     image?: String;
@@ -24,15 +24,21 @@ export default function CreatePlayer(props:g){
     const {user} = awsContext;
     if(user) console.log(user);
 
-    function register(e:React.FormEvent){
+    async function register(e:React.FormEvent){
         props.loading(true);
         e.preventDefault();
+        // Set up an object with all of the user attributes
         const name=(document.getElementById("name")as HTMLInputElement).value;
         const charName=(document.getElementById("name")as HTMLInputElement).value;
+        // The JWT Token, to prove we are logged in (need to access certain APIs)
+        let token=user.signInUserSession.idToken.jwtToken;        
+        // Our unique user id, assigned at creation
+        let userId=user.attributes.sub;
+        // The default access level for a user is 10. Admins have higher access levels.
         let accessLevel=10;
         if(user.attributes["custom:accessLevel"]) accessLevel=user.attributes["custom:accessLevel"];
         let data={
-            "userId":user.attributes.sub,
+            "userId":userId,
             "accessLevel":accessLevel,
             "userName":name,
             "userEmail":user.attributes.email,
@@ -41,12 +47,13 @@ export default function CreatePlayer(props:g){
             "characterImageURL":playerImage
         }
         let params={"Item":data} 
-        let token=user.signInUserSession.idToken.jwtToken;
+        // And then store that in the player database
         API.createNewPlayer(token, params) 
         .then((resp)=>{
           console.log(resp);    
           if(resp.status===200)
           {
+              // Getting "Access token has been revoked" error here
                 Auth.updateUserAttributes(user, {'custom:fullName': name, 'custom:accessLevel':data.accessLevel.toString()})
                 .then((resp)=>{     
                     console.log(user);
@@ -66,6 +73,38 @@ export default function CreatePlayer(props:g){
             props.loading(false);     
             console.error(err);
         })
+        // Also store the player idea in the game database's list of players
+        // So first we need to get the current list of players
+        let gid:string=gameInfo.id;
+        let gameData:any=await API.getSpecificGame(token, gid);
+        let currentPlayerList:string[];
+        if(gameData.data){
+            let info=gameData.data.Items[0];                     
+            currentPlayerList=info.playerIds;
+        // then add our player to it, unless it's already there for some reason
+            if(currentPlayerList.indexOf(userId)===-1){
+                currentPlayerList.push(userId)
+                // And update the database
+                let params={
+                    "id":gameInfo.id,
+                    "creatorId":info.creatorId,
+                    "title":info.title,
+                    "description":info.description,
+                    "rounds":info.rounds,
+                    "logo":info.logo,
+                    "playerIds":currentPlayerList
+                };
+                console.log(params); 
+                API.updateGame(params, token)
+                .then((resp)=>{
+                    console.log(resp);    
+                })
+                .catch((err)=>{              
+                    console.log(err);
+                })
+            }
+        }
+        else console.error("Error loading player list: ",gameData)
     }
 
     async function newImage(e:React.FormEvent){
