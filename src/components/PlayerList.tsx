@@ -7,30 +7,26 @@ interface playerInfo{
 }
 export default function PlayerList(props:any){
     const [players, setPlayers] = useState<playerInfo[]>([])
-    
+    // Once the props have fully loaded (games are guaranteed to have at least one player)
+    // we call update player, which goes through all of the ids and makes an API call to get info about each one
+    // This is stored in the player state, and displayed under "Current Players"
     useEffect(()=>{
-        // Once the props have fully loaded (and the id list is longer than 0—games are guaranteed to have at least one player)
-        // we call update player, which goes through all of the ids and makes an API call to get infor about each one
-        // This is stored in the player state, and displayed under "Current Players"
+        async function loadPlayerData(){
+            console.log("props.ids",props.ids)
+            let tempArray:playerInfo[]=[];
             for(const id of props.ids){
-                if(id){
-                    let newPlayer:playerInfo;
-                    API.getSpecificPlayer(id)  
-                    .then((data)=>{
-                        newPlayer={
-                            name:data.data.Items[0].userName,
-                            email:"mailto://"+data.data.Items[0].userEmail,
-                            id:id
-                        }
-                        setPlayers(players=>[...players, newPlayer])
-                    }) 
-                    .catch((err)=>{
-                        console.error(err);
-                    });
+                let data=await API.getSpecificPlayer(id);
+                let newPlayer:playerInfo={
+                    name:data.data.Items[0].userName,
+                    email:"mailto://"+data.data.Items[0].userEmail,
+                    id:id
                 }
-            } 
-    },[props.ids]);
-
+                tempArray.push(newPlayer);
+            }
+            setPlayers(tempArray);
+        }
+        if(props.ids.length>0) loadPlayerData();
+    },[props.ids]); 
     return(    
         <div>
             Current Players:
@@ -39,6 +35,6 @@ export default function PlayerList(props:any){
                     <li className="playerList" key={player.id}><a href={player.email}>{player.name}</a></li>
                 ))}
             </ul>
-        </div>  //dd
+        </div> 
     )
 }

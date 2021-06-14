@@ -1,63 +1,45 @@
 import { useEffect, useState, useCallback } from "react";
+import {callBackURL} from "../../context/auth/AWSContext";
 import API from "../../utils/API"
 interface gameInfo{
     name:string,
     id:string,
-    currentRound:string
+    currentRound:string,
+    url:string
+
 }
-// Under certain conditions (a full page refresh, for example) the component can load multiple times in quick succession,
-// which means that the state won't necessarily be cleared in time for the data to be loaded, which means that we'll get a
-// log of repeat data (not to mention unnecessary database calls). This variable is set to true once it's clear the first time.
-let cleared=false;
+
 export default function GameList(props:any){
     const [games, setGames]=useState<gameInfo[]>([]);
-    
-    const loadGameData=useCallback((token, id)=>{
-        console.info("%cLoading game data","color:green")
-        console.log(games.length)
 
-        if(games.length>0) console.log("No need to get player info, because games.length is ",games.length)
-        else API.getSpecificPlayer(id)
-        .then((userData=>{              
-            let gameIds=userData.data.Items[0].gameIds;
-            console.log("gameIDs:", gameIds.length )
+    // When the props.user changes (e.g., when the user information is loaded) we retrieve the array of games
+    // that hte user is player, and then retrieve the data from each of those games.
+    // This is displayed in a tidy little list.
+    useEffect(()=>{
+        async function loadPlayerData(){
+            const playerId:string=props.user.attributes.sub;
+            const token:string=props.user.signInUserSession.accessToken.jwtToken;
+            let playerData=await API.getSpecificPlayer(playerId);
+            const gameIds=playerData.data.Items[0].gameIds;
+            let tempArray:gameInfo[]=[];
             for(const id of gameIds){
-                API.getSpecificGame(token, id)
-                .then((gameData=>{
+                let gameData=await API.getSpecificGame(token, id);
+                if(gameData.data){
                     let info=gameData.data.Items[0];                        
                     let anotherGame:gameInfo={
                         name:info.title,
                         id:id,
-                        currentRound:info.rounds[info.currentRound]
+                        currentRound:info.rounds[info.currentRound],
+                        url:callBackURL+"play?gameId="+id
                     }
-                    
-                    console.log("Setting! ",games.length)
-                    setGames(games=>[...games, anotherGame])
-                }))
-                .catch(error=>{                        
-                    console.error(error);
-                });
+                    tempArray.push(anotherGame);
+                }
+                else console.error("Error loading game data: ",gameData)
             }
-        }))
-        .catch(error=>{
-            console.error(error);
-        });
-    },[]);
-
-     // State is preserved on component reload, so we need to clear it every time we load the list of games,
-    // otherwise it just continually adds the same games to the list. It takes a little time to run setGames,
-    // though, so we need to be sure it's done before we carry on.
-    useEffect(()=>{
-        const clearState=async ()=>{
-            await setGames([]);
-            cleared=true;
-            if(props.user.attributes) loadGameData(props.user.signInUserSession.accessToken.jwtToken, props.user.attributes.sub);
+            setGames(tempArray);
         }
-        // See above for more info on the cleared variable.
-        if(!cleared) clearState();
+        loadPlayerData();
     },[props.user]);
-
-   
 
     return(
 
@@ -66,7 +48,7 @@ export default function GameList(props:any){
             <ul>
                 {
                     games.length ? games.map(
-                        (game:gameInfo)=>(<li key={game.id}><a href={game.id}>{game.name}</a>: Round {game.currentRound}</li>)
+                        (game:gameInfo)=>(<li key={game.id}><a href={game.url}>{game.name}</a>: Round {game.currentRound}</li>)
                     ) : <li>Loading</li>
                 }
             </ul>
