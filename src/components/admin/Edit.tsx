@@ -52,7 +52,8 @@ const Edit=(props:editProp)=>{
               "title": form.title.value,
               "description": form.description.value,
               "logo": gameImage,
-              "rounds":categories
+              "rounds":categories,
+              "playerIds":playerIds
           };
           console.log(params); 
           API.updateGame(params, token)

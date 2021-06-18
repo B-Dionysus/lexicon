@@ -73,7 +73,7 @@ export default function CreatePlayer(props:g){
             props.loading(false);     
             console.error(err);
         })
-        // Also store the player idea in the game database's list of players
+        // Also store the player id in the game database's list of players
         // So first we need to get the current list of players
         let gid:string=gameInfo.id;
         let gameData:any=await API.getSpecificGame(token, gid);
