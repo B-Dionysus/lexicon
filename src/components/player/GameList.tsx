@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import {callBackURL} from "../../context/auth/AWSContext";
 import API from "../../utils/API"
-interface gameInfo{
-    name:string,
-    id:string,
-    currentRound:string,
-    url:string
-
-}
+import {gameInfo} from "../../interfaces/player.interfaces"
 
 export default function GameList(props:any){
     const [games, setGames]=useState<gameInfo[]>([]);
@@ -27,7 +21,7 @@ export default function GameList(props:any){
                 if(gameData.data){
                     let info=gameData.data.Items[0];                        
                     let anotherGame:gameInfo={
-                        name:info.title,
+                        title:info.title,
                         id:id,
                         currentRound:info.rounds[info.currentRound],
                         url:callBackURL+"play?gameId="+id
@@ -50,7 +44,7 @@ export default function GameList(props:any){
             <ul>
                 {
                     games.length ? games.map(
-                        (game:gameInfo)=>(<li key={game.id}><a href={game.url}>{game.name}</a>: Round {game.currentRound}</li>)
+                        (game:gameInfo)=>(<li key={game.id}><a href={game.url}>{game.title}</a>: Round {game.currentRound}</li>)
                     ) : <li>Loading</li>
                 }
             </ul>

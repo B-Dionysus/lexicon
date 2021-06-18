@@ -6,13 +6,8 @@ import API from "../utils/API"
 import { useState, useContext, useEffect } from "react";
 import AWSContext from "../context/auth/AWSContext";
 import Book from "../components/Book"
-interface gameInfo{
-    title:string,
-    id:string,
-    currentRound:string,
-    url?:string
-    logo?:string,
-}
+import {gameInfo} from "../interfaces/player.interfaces"
+ 
 export default function Play(){
     const {user} = useContext(AWSContext); 
     const [gameInfo, setGame]=useState<gameInfo>({title:"Loading", id:"0", currentRound:"Loading"})
@@ -56,7 +51,8 @@ export default function Play(){
         <div className="main">
             <CurrentGameInfo game={gameInfo}/>
             <div>
-                <div className="editEntry"><EditEntry /></div><div className="unclaimed" id="unclaimed">Unclaimed Entries</div>
+                <div className="editEntry"><EditEntry /></div>
+                <div className="unclaimed" id="unclaimed">Unclaimed Entries</div>
             </div>
         </div>
         </>
