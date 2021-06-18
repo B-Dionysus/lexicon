@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+bookOfBooksLogo.png
+.gitignore
+bookOfBooksLogo.psd
