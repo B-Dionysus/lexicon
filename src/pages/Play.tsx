@@ -26,7 +26,6 @@ export default function Play(){
                     logo:info.data.Items[0].logo
                 }
                 setLoadingIndicator(false);
-                console.log(gameInfo);
                 setGame(gameInfo);
             }
             else {
@@ -39,10 +38,6 @@ export default function Play(){
             getGameInfo(token, gameId);
         }
     },[user, gameId]);
-
-    // console.log(gameId);
-    // let gameInfo={name:"Test", id:"ID", currentRound:"Round 1", url:"url"}
-    
 
     return( 
         <>

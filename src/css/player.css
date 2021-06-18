@@ -23,6 +23,7 @@
     font-weight:bold;
     border-radius: 5px;
     width:15px;
+    cursor:pointer;
 }
 .styleBar{
     border:1px solid black;
