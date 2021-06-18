@@ -1,0 +1,8 @@
+.gameInfo{
+    font-weight: bold;
+    display:flex;
+    justify-content: space-around;
+}
+.logo{
+    max-width:50vw
+}
