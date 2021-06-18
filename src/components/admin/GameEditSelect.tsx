@@ -1,17 +1,18 @@
 import '../../css/editMenu.css';
 
 interface Game{
-  id?:string;
+  id:string;
   title?: string;
   description?: string;
   image?: string;
   creatorId?:string;
   categories?:Array<string>;
 }
-
-const GameEditSelect = (props:any) => {
-  if(props.games && props.games.length>0)
-    console.log(props.games.length);
+interface gesProps{
+  games?:Game[],
+  edit:Function
+}
+const GameEditSelect = (props:gesProps) => {
 
   if(props.games && props.games.length>0)
     return (

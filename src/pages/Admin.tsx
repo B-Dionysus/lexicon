@@ -9,11 +9,11 @@ import Create from "../components/admin/Create"
 import Edit from "../components/admin/Edit"
 interface Game{
   id:string;
-  title?: String;
-  description?: String;
-  image?: String;
-  creatorId?:String;
-  categories?:Array<String>;
+  title?: string;
+  description?: string;
+  image?: string;
+  creatorId?:string;
+  categories?:Array<string>;
 }
 
 //------------------------------> Note: Page will still load and display even after token has expired. Posting to database is still prohibited, as it should be.
@@ -26,13 +26,14 @@ const Admin = (props:any) => {
   const [gameListState, setGames]=useState<[Game]>();
   const [bookDisplay, setLoadingIndicator]=useState(false);
   const [gameId, setEdit]=useState("");
-
-  let token="";
-  if(user.signInUserSession) token=user.signInUserSession.idToken.jwtToken;
+  const [token,setToken]=useState("");
   // When the user changes, get the titles of the games they have created
   useEffect(()=>{
     console.debug("USEEFFECT ON %cADMIN","color:green")
     if(user.attributes){
+      let token="";
+      if(user.signInUserSession) token=user.signInUserSession.idToken.jwtToken;
+      setToken(token);
       let idToken=user.signInUserSession.idToken.jwtToken;          
       let accessLevel=user.attributes["custom:accessLevel"];
       if (accessLevel<50) window.location.href=callBackURL;

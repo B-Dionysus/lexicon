@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import {callBackURL} from "../../context/auth/AWSContext";
 import API from "../../utils/API"
 interface gameInfo{
@@ -11,14 +11,14 @@ interface gameInfo{
 
 export default function GameList(props:any){
     const [games, setGames]=useState<gameInfo[]>([]);
-
+    const {setLoadingIndicator, user}= props;
     // When the props.user changes (e.g., when the user information is loaded) we retrieve the array of games
     // that hte user is player, and then retrieve the data from each of those games.
     // This is displayed in a tidy little list.
     useEffect(()=>{
         async function loadPlayerData(){
-            const playerId:string=props.user.attributes.sub;
-            const token:string=props.user.signInUserSession.accessToken.jwtToken;
+            const playerId:string=user.attributes.sub;
+            const token:string=user.signInUserSession.accessToken.jwtToken;
             let playerData=await API.getSpecificPlayer(playerId);
             const gameIds=playerData.data.Items[0].gameIds;
             let tempArray:gameInfo[]=[];
@@ -36,10 +36,12 @@ export default function GameList(props:any){
                 }
                 else console.error("Error loading game data: ",gameData)
             }
+            setLoadingIndicator(false);
             setGames(tempArray);
-        }
+        }        
+        setLoadingIndicator(true);
         loadPlayerData();
-    },[props.user]);
+    },[user, setLoadingIndicator]);
 
     return(
 
