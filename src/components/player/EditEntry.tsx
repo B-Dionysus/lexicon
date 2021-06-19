@@ -1,18 +1,29 @@
 import StyleBar from "./StyleBar";
 import {styleButton} from "../../interfaces/style.interfaces"
 
-function updateDesc(e:React.ChangeEvent<HTMLTextAreaElement> | string) {
+function updateDesc(e:React.ChangeEvent<HTMLElement> | string) {
     // This fires either from an onChange event in the entry description textArea (which sends an event, of course)
     // or when the user clicks on a style button, which sends a string.
-    let newValue="";
-    // If it's a string, then it's coming from the button
-    if(typeof(e)==="string") newValue=e;
-    // Otherwise, it's an event from onChange()
-    else newValue = e.target.value;
+    let textArea=(document.getElementById("description") as HTMLTextAreaElement);
+    let newValue=sanitize(textArea.value);
+    textArea.value=newValue;
     let newTitle="";
     // Either way, we get the current title, and copy everything over to the preview area, where it will be displayed in html
-    newTitle=(document.getElementById("title") as HTMLInputElement).value;
-    if(newValue) document.getElementById("preview")!.innerHTML=`<p><b>${newTitle}</b></p><p>${newValue}</p>`;
+    newTitle=sanitize((document.getElementById("title") as HTMLInputElement).value);
+    if(newValue) document.getElementById("preview")!.innerHTML=`<p><b>${fixMarkup(newTitle)}</b></p><p>${fixMarkup(newValue)}</p>`;
+}
+function sanitize(string:string){
+    // I don't trust people not to add malicious code, so this just removes any html tags
+    string=string.replace("<","&lt").replace(">","&gt");
+    return string;
+}
+function fixMarkup(string:string){
+    // And this restores the markup that gets added by the buttons to real html
+    string=string.replace(/\[l\]/g,"<span class='linkedEntry'>").replace(/\[\/l\]/g,"</span>")
+    string=string.replace(/\[(.)\]/g,'<$1>');
+    string=string.replace(/\[\/(.)\]/g,'</$1>');
+    
+    return string;
 }
 
 export default function EditEntry(props:any){
@@ -43,7 +54,7 @@ export default function EditEntry(props:any){
         <>
         <div className="entryForm">
             <form id="entry" onSubmit={submitEntry}>
-                <div className="entry title"><label htmlFor="title">Title: </label><input id="title" placeholder={"Title starting with "+currentRound} /></div>
+                <div className="entry title"><label htmlFor="title">Title: </label><input onChange={updateDesc} id="title" placeholder={"Title starting with "+currentRound} /></div>
                 <div className="entry description">
                     <textarea className="entry textarea" id="description" onChange={updateDesc} placeholder="A lexicon entry concisely describing this concept" name="description" cols={40} rows={6}>
                     </textarea><StyleBar callback={addStyle}/></div>
