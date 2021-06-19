@@ -1,3 +1,11 @@
+.playMain {
+    background: radial-gradient(transparent 50%, gray 74%), url(https://lexicon-image-storage.s3.amazonaws.com/testImage/sky.png);
+    min-height: 90vh;
+    height: auto;
+    width: 95vw;
+    color: black;
+    padding: 0;
+}
 .gameInfo{
     font-weight: bold;
     display:flex;
@@ -31,6 +39,7 @@
     margin-left:2%;
     background-color:grey;
     text-align:center;
+    display:flex;
 }
 .editEntry{
     display: flex;
@@ -90,9 +99,15 @@
     margin-left:.3em;
     
 }
+.indicator.off{
+    display:none;
+}
 .indicator.false{
     background: radial-gradient(at 100% 0%, #FFFFFF, #AA4444);
 }
 .indicator.true{
     background: radial-gradient(at 100% 0%, #FFFFFF, #44AA44);
+}
+.linkedEntry{
+    color:red;
 }

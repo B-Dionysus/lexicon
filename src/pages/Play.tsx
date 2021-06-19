@@ -7,11 +7,13 @@ import API from "../utils/API"
 import { useState, useContext, useEffect } from "react";
 import AWSContext from "../context/auth/AWSContext";
 import Book from "../components/Book"
-import {gameInfo} from "../interfaces/player.interfaces"
- 
+import {gameInfo, unclaimedEntry} from "../interfaces/player.interfaces"
+
 export default function Play(){
     const {user} = useContext(AWSContext); 
     const [gameInfo, setGame]=useState<gameInfo>({title:"Loading", id:"0", currentRound:"Loading"})
+    let linked:unclaimedEntry[]=[{title:"what", status:"indicator true"}, {title:"just", status:"indicator off"}];
+    const [linkedEntries, setLinked]=useState<unclaimedEntry[]>(linked)
     const gameId:string=new URLSearchParams(window.location.search).get("gameId") as string;
     const [bookDisplay, setLoadingIndicator]=useState(false);
     useEffect(()=>{
@@ -38,21 +40,28 @@ export default function Play(){
             setLoadingIndicator(true);
             getGameInfo(token, gameId);
         }
-    },[user, gameId]);
+    },[user, gameId]); 
 
-    return( 
+    function addLinkedEntry(entry:string){
+        setLinked([...linkedEntries, {title:entry, status:"indicator off"}])
+    }
+    function removeLinkedEntry(entry:HTMLElement){
+        console.log(entry);
+
+    }
+    return(  
         <>
         <NavBar />
         <Book display={bookDisplay}/>
-        <div className="main">
+        <div className="playMain">
             <CurrentGameInfo game={gameInfo}/>
             <div>
                 <div className="editEntry">
-                    <EditEntry /> 
+                    <EditEntry addLinkedEntry={addLinkedEntry}/> 
                     <div id="preview" className="entry preview">
                        A lexicon entry concisely describing this concept
                     </div>
-                    <UnclaimedEntries />
+                    <UnclaimedEntries title="Linked Entries" removeLinkedEntry={removeLinkedEntry} unclaimedEntries={linkedEntries}/>
                 </div>
             </div>
         </div>

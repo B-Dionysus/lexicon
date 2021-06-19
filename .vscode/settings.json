@@ -6,6 +6,7 @@
         "src\\css",
         "src\\pages",
         "src\\utils",
-        "src\\components"
+        "src\\components",
+        "src\\interfaces"
     ]
 }

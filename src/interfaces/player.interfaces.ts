@@ -7,6 +7,15 @@ interface gameInfo{
 }
 
 
+interface unclaimedEntry{
+    title:string;
+    status:string;
+}
+interface unclaimedEntryProps{
+    title:string,
+    unclaimedEntries:unclaimedEntry[],
+    removeLinkedEntry:Function,
+}
 export type {
-    gameInfo
+    gameInfo, unclaimedEntry, unclaimedEntryProps
 }

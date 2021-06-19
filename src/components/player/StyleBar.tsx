@@ -9,18 +9,32 @@ export default function StyleBar(props:{callback:Function}){
         prefix:"<b>",
         postfix:"</b>",
         iconText:"B",
+        altText:"Bold Selection",
         callback:props.callback,
     }
     const italic:styleButton={
         prefix:"<i>",
         postfix:"</i>",
         iconText:"I",
+        altText:"Italicize Selection",
+        callback:props.callback,
+    }
+    const link:styleButton={
+        prefix:"<span class='linkedEntry'>",
+        postfix:"</span>",
+        iconText:"&",
+        altText:"Make Linked Entry",
         callback:props.callback,
     }
     return(
         <div className="styleBar">
-            <StyleButton button={bold}/>
-            <StyleButton button={italic}/>
+            <div>
+                <StyleButton button={bold}/>
+                <StyleButton button={italic}/>
+            </div>
+            <div>
+                <StyleButton button={link}/>
+            </div>
         </div>
     )
 }

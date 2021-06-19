@@ -3,6 +3,7 @@ interface styleButton{
     postfix:string,
     callback:Function,
     iconText:string,
+    altText:string,
 }
 interface styleButtonProps{
     button:styleButton
