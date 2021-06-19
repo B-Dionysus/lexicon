@@ -15,8 +15,8 @@
 .styleButton{
     border-right:1px solid black;
     border-bottom:1px solid black;
-    border-top:1px solid white;
-    border-left:1px solid white;
+    border-top:1px solid #c5c5c5;
+    border-left:1px solid#c5c5c5;
     background-color:white;
     padding:.25em;
     margin:.25em;
@@ -27,10 +27,12 @@
 }
 .styleBar{
     border:1px solid black;
-    width:8%;
+    padding:2%;
     margin-left:2%;
+    background-color:grey;
+    text-align:center;
 }
-.entryForm{
+.editEntry{
     display: flex;
     align-content: center;
     flex-direction: column;
@@ -39,23 +41,58 @@
     left:50%;
     transform:translate(-50%); 
 }
-.desc{    
+.entry{    
     width:300px;
     border:1px solid black;
     background-color:white;
-    overflow:wrap;
+    margin-top:10px;
+    text-align:left;
+    padding:.25em;
 }
 @media only screen and (min-width: 600px) {
-    .desc { width:450px;}
+    .entry { width:450px;}
   }
 @media only screen and (min-width: 900px) {
-    .desc { width:650px;}
+    .entry { width:650px;}
   }
-.desc.preview{
-    position:relative;
-    text-align:left;
-    margin:0;
-    margin-top:20px;
-    padding:.25em;
-
+.entry.preview{
+}
+.entry.unclaimed{
+}
+.entry.title{
+}
+.entry.title #title{
+    width:85%;
+}
+.unclaimedEntries{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.unclaimed{
+    border-right:1px solid black;
+    border-bottom:1px solid black;
+    border-top:1px solid #c5c5c5;
+    border-left:1px solid#c5c5c5;
+    border-radius:5px;
+    margin:.2em;
+    padding:.15em;
+    display:flex;
+    align-items:flex-end;
+    cursor:pointer;
+}
+.indicator{
+    border:1px solid black;
+    width:1em;
+    height:1em;
+    border-radius:100px;
+    display:inline-block;
+    margin-left:.3em;
+    
+}
+.indicator.false{
+    background: radial-gradient(at 100% 0%, #FFFFFF, #AA4444);
+}
+.indicator.true{
+    background: radial-gradient(at 100% 0%, #FFFFFF, #44AA44);
 }

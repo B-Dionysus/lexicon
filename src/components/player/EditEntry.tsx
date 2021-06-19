@@ -38,14 +38,11 @@ export default function EditEntry(props:any){
         <>
         <div className="entryForm">
             <form id="entry" onSubmit={submitEntry}>
-                <div><label htmlFor="title">Title:</label><input id="title" placeholder={"Title starting with "+currentRound} /></div>
-                <div className="description">
-                    <textarea className="desc" id="description" onChange={updateDesc} placeholder="A lexicon entry concisely describing this concept" name="description" cols={40} rows={6}>
+                <div className="entry title"><label htmlFor="title">Title: </label><input id="title" placeholder={"Title starting with "+currentRound} /></div>
+                <div className="entry description">
+                    <textarea className="entry textarea" id="description" onChange={updateDesc} placeholder="A lexicon entry concisely describing this concept" name="description" cols={40} rows={6}>
                     </textarea><StyleBar callback={addStyle}/></div>
             </form>
-            <div id="preview" className="desc preview">
-               A lexicon entry concisely describing this concept
-            </div>
         </div>
         </>
     )

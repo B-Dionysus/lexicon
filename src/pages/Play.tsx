@@ -2,6 +2,7 @@ import "../css/player.css";
 import NavBar from "../components/NavBar"
 import CurrentGameInfo from "../components/player/CurrentGameInfo"
 import EditEntry from "../components/player/EditEntry"
+import UnclaimedEntries from "../components/player/UnclaimedEntries"
 import API from "../utils/API"
 import { useState, useContext, useEffect } from "react";
 import AWSContext from "../context/auth/AWSContext";
@@ -46,8 +47,13 @@ export default function Play(){
         <div className="main">
             <CurrentGameInfo game={gameInfo}/>
             <div>
-                <div className="editEntry"><EditEntry /></div>
-                <div className="unclaimed" id="unclaimed">Unclaimed Entries</div>
+                <div className="editEntry">
+                    <EditEntry /> 
+                    <div id="preview" className="entry preview">
+                       A lexicon entry concisely describing this concept
+                    </div>
+                    <UnclaimedEntries />
+                </div>
             </div>
         </div>
         </>
