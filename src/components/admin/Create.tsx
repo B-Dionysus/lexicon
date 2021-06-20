@@ -73,7 +73,7 @@ const Create=(props:any)=>{
         setRounds(newArray);      
     }
     return(
-        <div className="create greyGrad">
+        <div className="create">
             <form id="createGame" onSubmit={makeGame}>
                 <div id="topSection">
                     <div><label htmlFor="title">Game Title. Something that will give the players ideas without being too limiting</label></div>

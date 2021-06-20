@@ -1,5 +1,5 @@
 .nav{
-    background:gray;
+    background:var(--navBarBackground);
     height:5vh;
     width:95vw;
     border-top-left-radius: 1em;

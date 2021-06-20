@@ -1,5 +1,6 @@
 .playMain {
-    background: radial-gradient(transparent 50%, gray 74%), url(https://lexicon-image-storage.s3.amazonaws.com/testImage/sky.png);
+    background-color:var(--background-color);
+    background-image:var(--background-image);
     min-height: 90vh;
     height: auto;
     width: 95vw;
@@ -21,11 +22,8 @@
     align-items: center;
 }
 .styleButton{
-    border-right:1px solid black;
-    border-bottom:1px solid black;
-    border-top:1px solid #c5c5c5;
-    border-left:1px solid#c5c5c5;
-    background-color:white;
+    border:var(--outsetBorder);
+    background-color:var(--styleButtonBackground);
     padding:.25em;
     margin:.25em;
     font-weight:bold;
@@ -34,10 +32,10 @@
     cursor:pointer;
 }
 .styleBar{
-    border:1px solid black;
+    border:var(--border);
     padding:2%;
     margin-left:2%;
-    background-color:grey;
+    background-color:var(--styleBarBackground);
     text-align:center;
     display:flex;
 }
@@ -52,8 +50,8 @@
 }
 .entry{    
     width:300px;
-    border:1px solid black;
-    background-color:white;
+    border:var(--border);
+    background-color:var(--basicMenu);
     margin-top:10px;
     text-align:left;
     padding:.25em;
@@ -64,12 +62,6 @@
 @media only screen and (min-width: 900px) {
     .entry { width:650px;}
   }
-.entry.preview{
-}
-.entry.unclaimed{
-}
-.entry.title{
-}
 .entry.title #title{
     width:85%;
 }
@@ -79,10 +71,7 @@
     justify-content: space-between;
 }
 .unclaimed{
-    border-right:1px solid black;
-    border-bottom:1px solid black;
-    border-top:1px solid #c5c5c5;
-    border-left:1px solid#c5c5c5;
+    border:var(--outsetBorder);
     border-radius:5px;
     margin:.2em;
     padding:.15em;
@@ -96,18 +85,17 @@
     height:1em;
     border-radius:100px;
     display:inline-block;
-    margin-left:.3em;
-    
+    margin-left:.3em;    
 }
 .indicator.off{
     display:none;
 }
 .indicator.false{
-    background: radial-gradient(at 100% 0%, #FFFFFF, #AA4444);
+    background: var(--falseIndicator);
 }
 .indicator.true{
-    background: radial-gradient(at 100% 0%, #FFFFFF, #44AA44);
+    background: var(--trueIndicator);
 }
 .linkedEntry{
-    color:red;
+    color:var(--linkedEntryColor);
 }

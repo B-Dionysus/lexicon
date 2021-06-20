@@ -1,9 +1,9 @@
 .confirm-main{
-    background:black;
+    background-color:var(--confirmBackground-color);
     height:90vh;
     width:95vw;
     padding:.25em;
-    background-image:url(https://lexicon-image-storage.s3.amazonaws.com/testImage/sky.png);
+    background-image:var(--background-image);
     background-size: 3px;
     text-align: center;
     display:flex;
@@ -13,8 +13,8 @@
     padding:2em;
     flex: 2;
     max-width: 500px;
-    border: 1px solid black;
-    background: black;
+    border:var(--border);
+    background-color:var(--confirmBackground-color);
     align-self: baseline;
 }
 .pad{
@@ -23,6 +23,7 @@
 }
 
 .cloud{
+    display:var(--cloudDisplay);
     background-image: url(https://lexicon-image-storage.s3.amazonaws.com/testImage/cloud.png);
     position:absolute;
     width:253px;

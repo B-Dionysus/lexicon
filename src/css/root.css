@@ -1,0 +1,40 @@
+/* c.f https://lukelowrey.com/css-variable-theme-switcher/ */
+:root{
+    --background-color:blue;
+    --background-image:url(https://lexicon-image-storage.s3.amazonaws.com/testImage/sky.png);
+    --color:black;
+    --border:1px solid black;
+    
+    --adminMenu:linear-gradient(to bottom right, gray, white);
+    --basicMenu:white;
+    --cloudDisplay:block; 
+
+    --confirmBackground-color:black;
+
+    --gameListBackground:rgba(255,255,255,0.25);
+
+    --editSubMenuBackgound:grey;
+    --editItemColor:white;
+
+    --joinAdminNav:grey;
+    --joinHeadingFont: 'Goblin One', cursive;
+    --joinHeadingFontSize:110%;
+
+    --bookCoverBackground-color:black;
+    --bookDarkShadow-top:1em solid #dcddd4;
+    --bookDarkShadow-bottom:.5em solid #dcddd4;
+    --bookLightShadow:.5em solid grey;
+    --bookPaperUrl:url("https://lexicon-image-storage.s3.amazonaws.com/gameLogos/paper.PNG");
+    --boomMainFont:'Open Sans', sans-serif;
+
+    --navBarBackground:grey;
+
+    --outsetBorder:1px outset #c5c5c5;
+    --styleButtonBackground:white;
+    --styleBarBackground:grey;
+
+    --falseIndicator:radial-gradient(at 100% 0%, #FFFFFF, #AA4444);
+    --trueIndicator:radial-gradient(at 100% 0%, #FFFFFF, #44AA44);
+
+    --linkedEntryColor:red;
+}

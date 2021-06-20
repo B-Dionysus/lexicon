@@ -12,7 +12,7 @@
     margin-left:.5em;
 }
 .submenu{
-    background:grey;
+    background:var(--editSubMenuBackground);
     text-align:left;
     visibility:hidden;
     padding:.25em;
@@ -23,7 +23,7 @@
 }
 .item{
     text-decoration:none;
-    color:white;
+    color:var(--editItemColor);
     padding: .25em;
 }
 

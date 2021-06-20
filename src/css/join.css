@@ -1,4 +1,4 @@
-.main{
+/* .main{
     background:blue;
     min-height:90vh;
     height:auto;
@@ -7,24 +7,24 @@
     background-size: 3px;
     color:black;
     padding:0;
-}
+} */
 .adminNav{
     float:left;
-    background:grey;
+    background:var(--joinAdminNav);
     display:flex;
     width:100%;
     justify-content:space-evenly;
     height:2em;
 }
-
+/* 
 .greyGrad{
     background-image:linear-gradient(to bottom right, gray, white);
     border:1px solid green;
     padding:.5em;
-}
+} */
 .gameHeading{
-    font-family: 'Goblin One', cursive;
-    font-size:110%;
+    font-family:var(--joinHeadingFont);
+    font-size:var(--joinHeadingFontSize);
 }
 .newPlayerForm{
     display:flex;    
@@ -35,7 +35,7 @@
     flex-basis: 100%;
     text-align: center;
 }
-.cloud{
+/* .cloud{
     background-image: url(https://lexicon-image-storage.s3.amazonaws.com/testImage/cloud.png);
     position:absolute;
     width:253px;
@@ -65,4 +65,4 @@
     left:50vw;
     animation-name:cloud2;
     animation-duration: 210s;
-}
+} */

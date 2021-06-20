@@ -1,5 +1,5 @@
 .mainBook{
-    background:black;
+    background-color:var(--bookCoverBackground-color);
     padding:2em;
     padding-left:0;
     margin-right:1em;
@@ -8,15 +8,15 @@
 }
 .mainPage{
     position: relative;
-    border-top:1em solid #dcddd4;
-    border-right:1em solid grey;
-    border-bottom:.5em solid #dcddd4;
-    background-image: url("https://lexicon-image-storage.s3.amazonaws.com/gameLogos/paper.PNG");
+    border-top:var(--bookDarkShadow-top);
+    border-right:var(--bookLightShadow);
+    border-bottom:var(--bookDarkShadow-bottom);
+    background-image: var(--bookPaperUrl);
     background-size: cover;
     width:100%;
 }
 .mainText{
     text-align:left;
     padding:1em;      
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--bookMainFont);
 }
