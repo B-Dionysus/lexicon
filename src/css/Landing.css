@@ -1,4 +1,4 @@
-.main{
+/* .main{
     background:var(--background-color);
     min-height:90vh;
     height:auto;
@@ -37,8 +37,8 @@
     top:437px;
     left:50vw;
     animation-name:cloud2;
-    animation-duration: 210s;
-}
+    animation-duration: 210s; 
+}*/
 .gameList{
     width:300px;
     border:var(--border);

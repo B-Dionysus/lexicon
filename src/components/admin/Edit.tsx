@@ -177,7 +177,7 @@ const Edit=(props:editProp)=>{
     return(
     <div className="mainBook">
     <div className="mainPage ">
-    <div className="mainText">
+    <div className="mainText"> 
         <form id="editGame" onSubmit={commitEdits}>
         <div className="grid">
             <div>

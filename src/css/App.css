@@ -1,3 +1,17 @@
+.App{
+  background:var(--appBackground);
+}
+.main{
+  background-color:var(--background-color);
+  background-image:var(--background-image);
+  color:var(--color);
+  min-height:95vh;
+  height:auto;
+  width:100vw;
+  background-size: 3px;
+  padding:0;
+}
+
 /* .App {
   text-align: center;
 }

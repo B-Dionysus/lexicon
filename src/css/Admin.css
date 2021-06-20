@@ -1,13 +1,4 @@
-.main{
-    background-color:var(--background-color);
-    background-image:var(--background-image);
-    color:var(--color);
-    min-height:90vh;
-    height:auto;
-    width:95vw;
-    background-size: 3px;
-    padding:0;
-}
+
 .adminNav{
     float:left;
     background:grey;
@@ -45,8 +36,6 @@
 .playerList{
     list-style-type: none;
     font-size:85%;
-}
-.greyGrad{
 }
 .roundsAndImage{
     display:flex;

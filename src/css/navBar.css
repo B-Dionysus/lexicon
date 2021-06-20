@@ -1,7 +1,7 @@
 .nav{
     background:var(--navBarBackground);
     height:5vh;
-    width:95vw;
+    width:100vw;
     border-top-left-radius: 1em;
     border-top-right-radius: 1em;
     padding:.25em;
