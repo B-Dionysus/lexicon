@@ -7,7 +7,6 @@ export default function Book(props:bookProps){
     if (props.display) style={display:'block'};
     return(
         <span className="frame" id="book" style={style as React.CSSProperties}>
-            LOADING...
             <span className="book" >
             </span>
         </span>

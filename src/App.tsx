@@ -91,9 +91,9 @@ auth.parseCognitoWebResponse(curUrl);
               <Router>
                 <Alert />
                  <Route exact path="/" component={Landing} />
-                 <Route path="/play" component={Play} />
                  <Route exact path="/unauthorized" component={Unauthorized} />
                 <PrivateRoute path="/admin" user={user} component={Admin}/>        
+                <PrivateRoute path="/play" user={user} component={Play}/>        
                 <PrivateRoute path="/joinGame" user={user} component={JoinGame}/>        
                 <PrivateRoute path="/test" user={user} component={Test}/>        
               </Router>

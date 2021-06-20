@@ -2,8 +2,9 @@
     position:absolute;
     width: 957px;
     height: 636px;  
-    left:0px;
-    top:20%;
+    transform:scale(.1);
+    left:-495px;
+    top:-230px;
     background-image:url('../images/book.svg');
     background-position-x:-100%;
     background-position-y:-100%;
@@ -13,11 +14,12 @@
 }
 .frame{
     position:absolute;  
-    z-index:1;
+    top:25%;
+    left:40%;
     border:1px solid black;
-    width: 957px;
-    height: 957px; 
-    padding:100px;
+    width: 100px;
+    height: 100px; 
+    padding:0px;
     animation:spin 5s infinite linear;
     border-radius:50%;
     background:url(https://www.nasa.gov/sites/default/files/1-bluemarble_west.jpg);
@@ -38,9 +40,9 @@
  }
  @keyframes spin{
     0%{
-        transform:scale(.1) rotate(0deg);
+        transform:translate(0vw, 0vw) scale(1) rotate(0deg);
     }
     100%{
-        transform:scale(.1) rotate(360deg);
+        transform:translate(0vw, 0vw) scale(1) rotate(360deg);
     }
  }

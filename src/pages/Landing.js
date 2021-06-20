@@ -14,7 +14,7 @@ const Landing = (props) => {
       <NavBar />
       <div className="main">
           {!user.username ? (
-              <div>
+              <div className="gameList">
                 <p>Here is some basic information about Lexicon, and maybe an email address to contact me if you'd like to play</p>
                 <p><a href={loginPath}>Login</a></p>
               </div>
@@ -24,9 +24,9 @@ const Landing = (props) => {
             </div>
           )}
         </div>
-        <Book display={bookDisplay}/>
         <div className="cloud cloud1" /> 
         <div className="cloud cloud2" /> 
+        <Book display={bookDisplay}/>
     </>
   );
 };

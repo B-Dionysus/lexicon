@@ -8,5 +8,6 @@
         "src\\utils",
         "src\\components",
         "src\\interfaces"
-    ]
+    ],
+    "favorites.sortOrder": "ASC"
 }
