@@ -2,6 +2,7 @@ import StyleBar from "./StyleBar";
 import {styleButton} from "../../interfaces/style.interfaces"
 
 function updateDesc(e:React.ChangeEvent<HTMLElement> | string) {
+    console.log("Firing")
     // This fires either from an onChange event in the entry description textArea (which sends an event, of course)
     // or when the user clicks on a style button, which sends a string.
     let textArea=(document.getElementById("description") as HTMLTextAreaElement);

@@ -46,8 +46,21 @@ export default function Play(){
         setLinked([...linkedEntries, {title:entry, status:"indicator off"}])
     }
     function removeLinkedEntry(entry:HTMLElement){
-        console.log(entry);
-
+        let formerEntry=entry.textContent;
+        // Remove the entry form the entry state (which will also take it out of the linked entries component at the bottom)
+        let tempArray=linkedEntries.filter(storedEntry =>{
+            if(storedEntry.title===formerEntry) return false;
+            else return true;
+        })
+        setLinked(tempArray);
+        // Also remove the markup from the textarea         
+        let textArea=(document.getElementById("description") as HTMLTextAreaElement);
+        
+        textArea.value=textArea.value.replace("[l]"+formerEntry+"[/l]",formerEntry!)
+        // And re-load the preview
+        // Bah, we need to re-enable all the markup and all. sigh
+        let newTitle=(document.getElementById("title") as HTMLInputElement).value;
+        document.getElementById("preview")!.innerHTML=`<p><b>${newTitle}</b></p><p>${textArea.value}</p>`;
     }
     return(  
         <>
