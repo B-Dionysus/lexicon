@@ -5,17 +5,30 @@ interface gameInfo{
     url?:string
     logo?:string,
 }
-
-
-interface unclaimedEntry{
+interface linkedEntry{
     title:string;
+    entryId?:string;
     status:string;
 }
 interface unclaimedEntryProps{
     title:string,
-    unclaimedEntries:unclaimedEntry[],
+    unclaimedEntries:linkedEntry[],
     removeLinkedEntry:Function,
 }
+interface databaseEntry{
+    id?:string,
+    gameId:string, 
+    creatorId:string,
+    title:string,
+    description:string,
+    linkedEntries:linkedEntry[];
+}
+interface editEntryProps{
+    gameInfo:gameInfo,
+    userId:string, 
+    linkedEntries:linkedEntry[], 
+    addLinkedEntry:Function,
+}
 export type {
-    gameInfo, unclaimedEntry, unclaimedEntryProps
+    gameInfo, linkedEntry, unclaimedEntryProps, databaseEntry, editEntryProps
 }
