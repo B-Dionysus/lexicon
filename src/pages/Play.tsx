@@ -7,15 +7,24 @@ import API from "../utils/API"
 import { useState, useContext, useEffect } from "react";
 import AWSContext from "../context/auth/AWSContext";
 import Book from "../components/Book"
-import {gameInfo, unclaimedEntry} from "../interfaces/player.interfaces"
+import {gameInfo, linkedEntry} from "../interfaces/player.interfaces" 
+import {updateDesc} from "../components//player/textUpdateUtilities"
 
 export default function Play(){
     const {user} = useContext(AWSContext); 
+    let userId="";
+    if(user.attributes) userId=user.attributes.sub;
+    // State showing the basic information about the current game
     const [gameInfo, setGame]=useState<gameInfo>({title:"Loading", id:"0", currentRound:"Loading"})
-    let linked:unclaimedEntry[]=[{title:"what", status:"indicator true"}, {title:"just", status:"indicator off"}];
-    const [linkedEntries, setLinked]=useState<unclaimedEntry[]>(linked)
-    const gameId:string=new URLSearchParams(window.location.search).get("gameId") as string;
+    // State holding new entries that the players is currently adding for other players to write, later
+    const [linkedEntries, setLinked]=useState<linkedEntry[]>([])
+    // State holding all of the current unwritten entries that the player might want to claim
+    const [unclaimedEntries, setUnclaimed]=useState<linkedEntry[]>([])
+    // Whether or not we should be displaying the loading icon
     const [bookDisplay, setLoadingIndicator]=useState(false);
+
+    const gameId:string=new URLSearchParams(window.location.search).get("gameId") as string;
+
     useEffect(()=>{
         async function getGameInfo(token:string, gameId:string){
             let info=await API.getSpecificGame(token, gameId);
@@ -35,6 +44,9 @@ export default function Play(){
                 console.error(info);
             }
         };
+        async function getUnclaimedEntries(gameId:string){
+
+        }
         if(user.signInUserSession){
             const token=user.signInUserSession.idToken.jwtToken;
             setLoadingIndicator(true);
@@ -58,9 +70,10 @@ export default function Play(){
         
         textArea.value=textArea.value.replace("[l]"+formerEntry+"[/l]",formerEntry!)
         // And re-load the preview
-        // Bah, we need to re-enable all the markup and all. sigh
-        let newTitle=(document.getElementById("title") as HTMLInputElement).value;
-        document.getElementById("preview")!.innerHTML=`<p><b>${newTitle}</b></p><p>${textArea.value}</p>`;
+        updateDesc("");
+        // // Bah, we need to re-enable all the markup and all. sigh
+        // let newTitle=(document.getElementById("title") as HTMLInputElement).value;
+        // document.getElementById("preview")!.innerHTML=`<p><b>${newTitle}</b></p><p>${textArea.value}</p>`;
     }
     return(  
         <>
@@ -69,8 +82,9 @@ export default function Play(){
         <div className="playMain">
             <CurrentGameInfo game={gameInfo}/>
             <div>
-                <div className="editEntry">
-                    <EditEntry addLinkedEntry={addLinkedEntry}/> 
+                <div className="editEntry"> 
+                   {true && (<UnclaimedEntries title="Unclaimed Entries" removeLinkedEntry={removeLinkedEntry} unclaimedEntries={unclaimedEntries}/>)}
+                    <EditEntry linkedEntries={linkedEntries} gameInfo={gameInfo} userId={userId} addLinkedEntry={addLinkedEntry}/> 
                     <div id="preview" className="entry preview">
                        A lexicon entry concisely describing this concept
                     </div>
@@ -79,5 +93,5 @@ export default function Play(){
             </div>
         </div>
         </>
-    )
+    )   
 }
