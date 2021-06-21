@@ -17,10 +17,10 @@ export default function UnclaimedEntries(props:unclaimedEntryProps){
         <div id="unclaimed" className="entry">
             <div><b>{props.title}</b></div>
             <div  className="unclaimedEntries">
-                {
+                {props.unclaimedEntries.length>0 ? 
                     props.unclaimedEntries.map((entry,i)=>(
                         <span onClick={claim} key={i} className="unclaimed">{entry.title}<span className={entry.status}></span></span>
-                    ))
+                    )) : "No entries found"
                 }
             </div>
         </div>
