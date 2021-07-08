@@ -1,13 +1,14 @@
 interface gameInfo{
     title:string,
     id:string,
+    roundNum:number, 
     currentRound:string,
     url?:string
     logo?:string,
 }
 interface linkedEntry{
     title:string;
-    entryId?:string;
+    entryId?:string; 
     status:string;
 }
 interface unclaimedEntryProps{
@@ -24,8 +25,10 @@ interface databaseEntry{
     linkedEntries:linkedEntry[];
 }
 interface editEntryProps{
+    setLoading:Function,
     gameInfo:gameInfo,
-    userId:string, 
+    entryId:string,
+    userInfo:{userId:string, token:string}
     linkedEntries:linkedEntry[], 
     addLinkedEntry:Function,
 }

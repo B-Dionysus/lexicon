@@ -12,10 +12,15 @@ import {updateDesc} from "../components//player/textUpdateUtilities"
 
 export default function Play(){
     const {user} = useContext(AWSContext); 
-    let userId="";
-    if(user.attributes) userId=user.attributes.sub;
+    let userInfo={userId:"", token:""};
+    if(user.attributes) 
+    {
+        let userId=user.attributes.sub;
+        userInfo={userId:userId, token: user.signInUserSession.idToken.jwtToken}
+    }
+    const [entryId, setId]=useState("0");
     // State showing the basic information about the current game
-    const [gameInfo, setGame]=useState<gameInfo>({title:"Loading", id:"0", currentRound:"Loading"})
+    const [gameInfo, setGame]=useState<gameInfo>({title:"Loading", id:"0", roundNum:0,currentRound:"Loading"})
     // State holding new entries that the players is currently adding for other players to write, later
     const [linkedEntries, setLinked]=useState<linkedEntry[]>([])
     // State holding all of the current unwritten entries that the player might want to claim
@@ -28,12 +33,14 @@ export default function Play(){
     useEffect(()=>{
         async function getGameInfo(token:string, gameId:string){
             let info=await API.getSpecificGame(token, gameId);
+            console.log(info);
             if(info.status===200){
                 let roundNum=info.data.Items[0].currentRound;
                 let currentRound=info.data.Items[0].rounds[roundNum];
-                let gameInfo={
+                let gameInfo:gameInfo={ 
                     title:info.data.Items[0].title,
                     id:gameId,
+                    roundNum:roundNum, 
                     currentRound:currentRound,
                     logo:info.data.Items[0].logo
                 }
@@ -42,20 +49,40 @@ export default function Play(){
             }
             else {
                 console.error(info);
+                setLoadingIndicator(false);
+            }
+        };
+        async function getEntry(token:string, gameId:string, userId:string){
+            let info=await API.getEntry(token, gameId, userId);
+            console.log(info);
+            if(info.status===200 && info.data.Items.length){
+                let form:any=document.getElementById("entry");
+                form.title.value=info.data.Items[0].title;
+                form.description.value=info.data.Items[0].description;
+                setLinked(info.data.Items[0].linkedEntries);
+                setId(info.data.Items[0].id);
+                // form.description.value=info.data.Items[0].description;
+                updateDesc("");
+                setLoadingIndicator(false);
+            }
+            else {
+                console.error(info);
+                setLoadingIndicator(false);
             }
         };
         async function getUnclaimedEntries(gameId:string){
 
         }
-        if(user.signInUserSession){
-            const token=user.signInUserSession.idToken.jwtToken;
+        if(userInfo.token && gameId){
+            const token=userInfo.token;
             setLoadingIndicator(true);
             getGameInfo(token, gameId);
+            getEntry(token,gameId, userInfo.userId);
         }
-    },[user, gameId]); 
+    },[userInfo.userId, userInfo.token, gameId]); 
 
     function addLinkedEntry(entry:string){
-        setLinked([...linkedEntries, {title:entry, status:"indicator off"}])
+        setLinked([...linkedEntries, {title:entry, entryId:entryId, status:"indicator off"}])
     }
     function removeLinkedEntry(entry:HTMLElement){
         let formerEntry=entry.textContent;
@@ -83,11 +110,8 @@ export default function Play(){
             <CurrentGameInfo game={gameInfo}/>
             <div>
                 <div className="editEntry"> 
-                   {true && (<UnclaimedEntries title="Unclaimed Entries" removeLinkedEntry={removeLinkedEntry} unclaimedEntries={unclaimedEntries}/>)}
-                    <EditEntry linkedEntries={linkedEntries} gameInfo={gameInfo} userId={userId} addLinkedEntry={addLinkedEntry}/> 
-                    <div id="preview" className="entry preview">
-                       A lexicon entry concisely describing this concept
-                    </div>
+                   {gameInfo.roundNum>0 && (<UnclaimedEntries title="Unclaimed Entries" removeLinkedEntry={removeLinkedEntry} unclaimedEntries={unclaimedEntries}/>)}
+                    <EditEntry linkedEntries={linkedEntries} setLoading={setLoadingIndicator} gameInfo={gameInfo} userInfo={userInfo} entryId={entryId} addLinkedEntry={addLinkedEntry}/> 
                     <UnclaimedEntries title="Linked Entries" removeLinkedEntry={removeLinkedEntry} unclaimedEntries={linkedEntries}/>
                 </div>
             </div>

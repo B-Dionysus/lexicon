@@ -1,5 +1,6 @@
 import axios from "axios";
 import AWS from "aws-sdk"
+import { databaseEntry } from "../interfaces/player.interfaces";
 const path="https://8xa8pgu8uj.execute-api.us-east-1.amazonaws.com";
 const stage="Delta"
 interface emailParam{
@@ -31,7 +32,15 @@ let API={
     },
     getSpecificGame: function(token:string, gameId:string){
         // need to rename this method to something more useful than "query"
-        let req=`${path}/${stage}/query/?id=${gameId}`;
+        let req=`${path}/${stage}/getSpecificGameInfo/?id=${gameId}`;
+        return axios.get(req,{
+            headers:{
+                'authorization':token
+            }
+        });
+    },
+    getEntry: function(token:string, gameId:string, userId:string){
+        let req=`${path}/${stage}/read/entry?gameId=${gameId}&userId=${userId}`;
         return axios.get(req,{
             headers:{
                 'authorization':token
@@ -70,7 +79,12 @@ let API={
     getSpecificPlayer:function(charId:string){
         let req=`${path}/${stage}/queryPlayer?charId=${charId}`;
         return axios.get(req)    
-    }
+    },
+    updatePlayerEntry:function(token:string, params:databaseEntry){        
+        let req=`${path}/${stage}/update/entry/`;
+        let headers={headers:{"authorization":token}} 
+        return axios.post(req, params, headers)    
+    },
 };
 
 

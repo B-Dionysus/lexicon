@@ -7,11 +7,19 @@ function updateDesc(e:React.ChangeEvent<HTMLElement> | string) {
     let newTitle="";
     // Either way, we get the current title, and copy everything over to the preview area, where it will be displayed in html
     newTitle=sanitize((document.getElementById("title") as HTMLInputElement).value);
-    if(newValue) document.getElementById("preview")!.innerHTML=`<p><b>${fixMarkup(newTitle)}</b></p><p>${fixMarkup(newValue)}</p>`;
+    if(newValue){
+         document.getElementById("titlePreview")!.innerHTML=`<b>${fixMarkup(newTitle)}</b>`;
+         document.getElementById("preview")!.innerHTML=`<p>${fixMarkup(newValue)}</p>`;
+    }
 }
 function sanitize(string:string){
     // I don't trust people not to add malicious code, so this just removes any html tags
-    string=string.replace("<","&lt").replace(">","&gt");
+    // First, turn all < into [ and > into ]. No funny business!
+    string=string.replace(/</g,"[").replace(/>/g,"]");
+    // Next, when we load the entry it'll have <span>s for the linked entries. Turn that back into markup
+    string=string.replace(/\[span class=\"linkedEntry\"\]/g,"[l]").replace(/\[\/span\]/g,"[\/l]");
+    // Finally, turn paragraphs into \n.
+    string=string.replace(/\[\/p\]/g,"\n").replace(/\[p\]/g,"");
     return string;
 }
 function fixMarkup(string:string){

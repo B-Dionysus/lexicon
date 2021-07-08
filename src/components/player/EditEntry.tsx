@@ -2,23 +2,34 @@ import StyleBar from "./StyleBar";
 import {styleButton} from "../../interfaces/style.interfaces";
 import {databaseEntry, editEntryProps} from "../../interfaces/player.interfaces";
 import {updateDesc} from "./textUpdateUtilities"
-
+import API from "../../utils/API"
 
 
 export default function EditEntry(props:editEntryProps){
-    function submitEntry(){
+    function submitEntry(e:React.FormEvent){
+        e.preventDefault();
         updateDesc("submitting");
         if(props.linkedEntries.length<2) alert("MOR ELINKS!");
-        else {
-            let form=document.getElementById("entryForm")!;
+        else {            
             let newEntry:databaseEntry={
-                title:form.title,
+                id:props.entryId,
+                title:(document.getElementById("title") as HTMLInputElement).value,
                 gameId:props.gameInfo.id,  
-                creatorId:props.userId, 
+                creatorId:props.userInfo.userId, 
                 description:document.getElementById("preview")!.innerHTML,
                 linkedEntries:props.linkedEntries,
             };
-            console.log(newEntry);
+            props.setLoading(true);
+            console.log(newEntry);            
+            API.updatePlayerEntry(props.userInfo.token, newEntry)
+            .then((resp)=>{
+                console.log(resp);    
+                props.setLoading(false);  
+            })
+            .catch((err)=>{              
+                console.log(err);
+                props.setLoading(false);  
+            })
         }
     }
 
@@ -47,9 +58,18 @@ export default function EditEntry(props:editEntryProps){
             <form id="entry" onSubmit={submitEntry}>
                 <div className="entry title"><label htmlFor="title">Title: </label><input required onChange={updateDesc} id="title" placeholder={"Title starting with "+currentRound} /></div>
                 <div className="entry description">
-                    <textarea className="entry textarea" id="description" onChange={updateDesc} required  placeholder="A lexicon entry concisely describing this concept" name="description" cols={40} rows={6}>
-                    </textarea><StyleBar callback={addStyle}/></div>
+                    <textarea className="entry textarea" id="description" onChange={updateDesc} required  placeholder="A lexicon entry concisely describing this concept" name="description" cols={40} rows={6}></textarea>
+                    <StyleBar callback={addStyle}/></div>
+                    <input type="submit" />
             </form>
+            <div className="entry preview">
+                <div id="titlePreview" className="">
+                    Title
+                </div>
+                <div id="preview" className="">
+                    A lexicon entry concisely describing this concept
+                </div>
+            </div>
         </div>
         </>
     )

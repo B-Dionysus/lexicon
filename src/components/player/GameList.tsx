@@ -23,6 +23,7 @@ export default function GameList(props:any){
                     let anotherGame:gameInfo={
                         title:info.title,
                         id:id,
+                        roundNum:info.currentRound,
                         currentRound:info.rounds[info.currentRound],
                         url:callBackURL+"play?gameId="+id
                     }
